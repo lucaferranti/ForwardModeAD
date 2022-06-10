@@ -14,14 +14,14 @@ module trigonometric {
     }
 
     proc asin(a : DualNumber) {
-
+        return new DualNumber(asin(prim(a)), dual(a) / sqrt(1 - prim(a)**2));
     }
 
     proc acos(a : DualNumber) {
-
+        return new DualNumber(acos(prim(a)), -dual(a) / sqrt(1 - prim(a)**2));
     }
 
     proc atan(a : DualNumber) {
-
+        return new DualNumber(atan(prim(a)), dual(a) / (1 + prim(a)**2));
     }
 }
