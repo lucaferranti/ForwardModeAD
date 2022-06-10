@@ -27,4 +27,11 @@ module arithmetic {
         return new DualNumber(prim(a) ** b, b * (prim(a) ** (b - 1)) * dual(a));
     }
 
+    proc sqrt(a : DualNumber) {
+        return new DualNumber(sqrt(prim(a)), 0.5 * dual(a) / sqrt(prim(a)));
+    }
+
+    proc cbrt(a : DualNumber) {
+        return new DualNumber(cbrt(prim(a)), 1.0 / 3.0 * dual(a) / cbrt(prim(a) ** 2));
+    }
 }

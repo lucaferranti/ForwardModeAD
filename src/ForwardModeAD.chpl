@@ -33,9 +33,6 @@ module ForwardModeAD {
   }
 
   proc main() {
-    var x = new DualNumber(0.0, 0.0);
-    var y = new DualNumber(1e-16, -1e-16);
-    writeln(isclose(0.0, 1e-16, atol=1e-10));
-    writeln(isclose(x, y, atol=1e-10));
+    var x = new DualNumber(-1, 0.0);
   }
 }

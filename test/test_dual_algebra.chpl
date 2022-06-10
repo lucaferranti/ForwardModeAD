@@ -30,6 +30,9 @@ proc test_arithmetic_operations(test : borrowed Test) throws {
 
     test.assertEqual(y ** 3, new DualNumber(27, 108));
     test.assertEqual(y ** 0.4, new DualNumber(1.5518455739153598, 0.8276509727548587));
+
+    test.assertEqual(sqrt(y), new DualNumber(sqrt(3), 2.0 / sqrt(3)));
+    test.assertEqual(cbrt(y), new DualNumber(cbrt(3), 4.0 / 3.0 / cbrt(9)));
 }
 
 
@@ -46,7 +49,23 @@ proc test_trigonometric_operations(test : borrowed Test) throws {
 }
 
 proc test_transcendental_functions(test : borrowed Test) throws {
-    
+    var x = new DualNumber(2, 3);
+
+    test.assertEqual(2 ** x, new DualNumber(4, 12 * ln_2));
+
+    test.assertEqual(x ** x, new DualNumber(4, 12 * (ln_2 + 1)));
+
+    test.assertEqual(exp(x), new DualNumber(exp(2), 3 * exp(2)));
+
+    test.assertEqual(exp2(x), new DualNumber(4, 12 * ln_2));
+
+    test.assertEqual(expm1(x), new DualNumber(expm1(2), 3 * exp(2)));
+
+    test.assertEqual(log(x), new DualNumber(ln_2, 1.5));
+
+    test.assertEqual(log2(x), new DualNumber(1, 1.5 / ln_2));
+
+    test.assertEqual(log1p(x), new DualNumber(log1p(2), 1));
 }
 
 proc test_hyperbolic_functions(test : borrowed Test) throws {
