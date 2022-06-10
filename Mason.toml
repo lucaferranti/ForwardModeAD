@@ -1,0 +1,11 @@
+
+[brick]
+authors = "Luca Ferranti"
+chplVersion = "1.26.0"
+license = "MIT"
+name = "ForwardModeAD"
+version = "0.1.0"
+
+[dependencies]
+
+
