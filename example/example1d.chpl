@@ -1,9 +1,15 @@
 use ForwardModeAD;
 
-proc f(x) {return 3;}
-proc h(x) {return x + 1;}
+proc f(x) {
+    return x ** 2 + 2 * x + 1;
+}
 
-var x = 1;
 
-writeln(derivative(lambda(x : DualNumber) {return f(x);}, x));
-writeln(derivative(lambda(x : DualNumber) {return h(x);}, x));
+var y = derivative(lambda(x : DualNumber) {return f(x);}, 1.0);
+writeln(y);
+
+proc df(x) {
+    return derivative(lambda(t : DualNumber) {return f(t);}, x);
+}
+
+var z = df(1.0);

@@ -3,20 +3,15 @@ ForwardModeAD
 
 A lightweight Chapel package for forward mode automatic differentiation using dual numbers.
 
-Installation
-************
+Features
+********
 
-TODO
-
-Sneak Preview
-*************
-
-TODO
+- derivative of univarite functions 
 
 Contributing
 ************
 
-TODO
+If you encounter bugs or have feature requests, feel free to [open an issue](https://github.com/lucaferranti/ForwardModeAD/issues/new). PRs are also welcome.
 
 Contents
 ********
