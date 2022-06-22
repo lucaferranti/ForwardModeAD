@@ -26,13 +26,45 @@ Dual Numbers
 
       dual part of the dual number 
 
-.. function:: proc prim(a: DualNumber)
+.. record:: MultiDual
+
+   A multidual number is a number if the form :math:`a + \sum_{i=1}^nb_i\epsilon_i`,
+   for which it holds :math:`\epsilon_i^2=0` and :math:`\epsilon_i\epsilon_j=0` for any indices :math:`i, j`. 
+
+
+   .. attribute:: var dom: domain(1)
+
+      domain for the array of dual parts
+
+   .. attribute:: var prim: real
+
+      primal part 
+
+   .. attribute:: var dual: [dom] real
+
+      dual parts 
+
+   .. method:: proc init(val: real, grad: [?dom])
+
+      
+      constructor to create the multidual number from the primal part and array of dual parts, automatically inferring the domain.
+      
+
+.. function:: proc todual(val: real, der: real)
+
+   Converts a pair of real numbers to dual number 
+
+.. function:: proc todual(val: real, grad: [?D] real)
+
+   Converts a real number and array of reals to a multidual number. 
+
+.. function:: proc prim(a)
 
    
    For dual numbers, it returns the primal part. For real numbers, it returns the number itself.
    
 
-.. function:: proc dual(a: DualNumber)
+.. function:: proc dual(a)
 
    
    For dual numbers, it returns the dual part, for real numbers it returns zero.

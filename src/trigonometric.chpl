@@ -1,27 +1,39 @@
 module trigonometric {
     use ForwardModeAD;
     
-    proc sin(a : DualNumber) {
-        return new DualNumber(sin(prim(a)), cos(prim(a)) * dual(a));
+    proc sin(a) where isDualType(a.type) {
+        var f = sin(prim(a)),
+            df = cos(prim(a)) * dual(a);
+        return todual(f, df);
     }
 
-    proc cos(a : DualNumber) {
-        return new DualNumber(cos(prim(a)), -sin(prim(a)) * dual(a));
+    proc cos(a) where isDualType(a.type) {
+        var f = cos(prim(a)),
+            df = -sin(prim(a)) * dual(a);
+        return todual(f, df);
     }
 
-    proc tan(a : DualNumber) {
-        return new DualNumber(tan(prim(a)), dual(a)/(cos(prim(a))**2));
+    proc tan(a) where isDualType(a.type) {
+        var f = tan(prim(a)),
+            df = dual(a) / (cos(prim(a)) ** 2);
+        return todual(f, df);
     }
 
-    proc asin(a : DualNumber) {
-        return new DualNumber(asin(prim(a)), dual(a) / sqrt(1 - prim(a)**2));
+    proc asin(a) where isDualType(a.type) {
+        var f = asin(prim(a)),
+            df = dual(a) / sqrt(1 - prim(a)**2);
+        return todual(f, df);
     }
 
-    proc acos(a : DualNumber) {
-        return new DualNumber(acos(prim(a)), -dual(a) / sqrt(1 - prim(a)**2));
+    proc acos(a) where isDualType(a.type) {
+        var f = acos(prim(a)),
+            df = -dual(a) / sqrt(1 - prim(a)**2);
+        return todual(f, df);
     }
 
-    proc atan(a : DualNumber) {
-        return new DualNumber(atan(prim(a)), dual(a) / (1 + prim(a)**2));
+    proc atan(a) where isDualType(a.type) {
+        var f = atan(prim(a)),
+            df = dual(a) / (1 + prim(a)**2);
+        return todual(f, df);
     }
 }

@@ -1,28 +1,58 @@
 module transcendental {
     use ForwardModeAD;
 
-    operator **(a : real, b : DualNumber) {
-        return new DualNumber(a ** prim(b), log(a) * (a ** prim(b)) * dual(b));
+    operator **(a : real, b) where isDualType(b.type) {
+        var f = a ** prim(b),
+            df = log(a) * (a ** prim(b)) * dual(b);
+        return todual(f, df);
     }
 
 
-    operator **(a : DualNumber, b : DualNumber) {
+    operator **(a, b) where isDualType(a.type) && a.type == b.type {
         var f = prim(a) ** prim(b);
         var df = f * (dual(b) * log(prim(a)) + prim(b) * dual(a) / prim(a)); 
-        return new DualNumber(f, df);
+        return todual(f, df);
     }
 
-    proc exp(a : DualNumber) { return new DualNumber(exp(prim(a)), dual(a) * exp(prim(a))); }
+    proc exp(a) where isDualType(a.type) {
+        var f = exp(prim(a)),
+            df = dual(a) * exp(prim(a));
+        return todual(f, df);
+    }
 
-    proc exp2(a : DualNumber) {return new DualNumber(exp2(prim(a)), ln_2 * exp2(prim(a)) * dual(a));}
+    proc exp2(a) where isDualType(a.type) {
+        var f = exp2(prim(a)), 
+            df = ln_2 * exp2(prim(a)) * dual(a);
+        return todual(f, df);
+    }
 
-    proc expm1(a : DualNumber) {return new DualNumber(expm1(prim(a)), exp(prim(a)) * dual(a));}
+    proc expm1(a) where isDualType(a.type) {
+        var f = expm1(prim(a)), 
+            df = exp(prim(a)) * dual(a);
+        return todual(f, df);
+    }
 
-    proc log(a : DualNumber) { return new DualNumber(log(prim(a)), dual(a) / prim(a)); }
+    proc log(a) where isDualType(a.type) {
+        var f = log(prim(a)), 
+            df = dual(a) / prim(a);
+        return todual(f, df);
+    }
     
-    proc log2(a : DualNumber) {return new DualNumber(log2(prim(a)), dual(a)/(prim(a) * ln_2));}
+    proc log2(a) where isDualType(a.type) {
+        var f = log2(prim(a)), 
+            df = dual(a)/(prim(a) * ln_2);
+        return todual(f, df);
+    }
 
-    proc log10(a : DualNumber) {return new DualNumber(log10(prim(a)), dual(a) / (prim(a) * ln_10));}
+    proc log10(a) where isDualType(a.type) {
+        var f = log10(prim(a)), 
+            df = dual(a) / (prim(a) * ln_10);
+        return todual(f, df);
+    }
 
-    proc log1p(a : DualNumber) {return new DualNumber(log1p(prim(a)), dual(a) / (prim(a) + 1));}
+    proc log1p(a) where isDualType(a.type) {
+        var f = log1p(prim(a)), 
+            df = dual(a) / (prim(a) + 1);
+        return todual(f, df);
+    }
 }

@@ -1,37 +1,53 @@
 module arithmetic {
     use ForwardModeAD;
     
-    operator +(a : DualNumber) { return a; }
+    operator +(a) where isDualType(a.type) { return a; }
 
-    operator -(a : DualNumber) { return new DualNumber(-prim(a), -dual(a)); }
+    operator -(a) where isDualType(a.type) { 
+        var f = -prim(a),
+            df = -dual(a);
+        return todual(f, df); 
+    }
 
     operator +(a, b) where isEitherDualNumberType(a.type, b.type) {
-        return new DualNumber(prim(a) + prim(b), dual(a) + dual(b));
+        var f = prim(a) + prim(b);
+        var df = dual(a) + dual(b);
+        return todual(f, df);
     }
 
     operator -(a, b) where isEitherDualNumberType(a.type, b.type) {
-        return new DualNumber(prim(a) - prim(b), dual(a) - dual(b));
+        var f = prim(a) - prim(b);
+        var df = dual(a) - dual(b);
+        return todual(f, df);
     }
 
     operator *(a, b) where isEitherDualNumberType(a.type, b.type) {
-        return new DualNumber(prim(a) * prim(b), dual(a) * prim(b) + prim(a) * dual(b));
+        var f = prim(a) * prim(b),
+            df = dual(a) * prim(b) + prim(a) * dual(b);
+        return todual(f, df);
     }
 
     operator /(a, b) where isEitherDualNumberType(a.type, b.type) {
-        var f = prim(a) / prim(b);
-        var df = (dual(a) * prim(b) - prim(a) * dual(b)) / prim(b) ** 2;
-        return new DualNumber(f, df); 
+        var f = prim(a) / prim(b),
+            df = (dual(a) * prim(b) - prim(a) * dual(b)) / prim(b) ** 2;
+        return todual(f, df); 
     }
 
-    operator **(a : DualNumber, b : real) {
-        return new DualNumber(prim(a) ** b, b * (prim(a) ** (b - 1)) * dual(a));
+    operator **(a, b : real) where isDualType(a.type) {
+        var f = prim(a) ** b,
+            df = b * (prim(a) ** (b - 1)) * dual(a);
+        return todual(f, df);
     }
 
-    proc sqrt(a : DualNumber) {
-        return new DualNumber(sqrt(prim(a)), 0.5 * dual(a) / sqrt(prim(a)));
+    proc sqrt(a) where isDualType(a.type) {
+        var f = sqrt(prim(a)),
+            df = 0.5 * dual(a) / sqrt(prim(a));
+        return todual(f, df);
     }
 
-    proc cbrt(a : DualNumber) {
-        return new DualNumber(cbrt(prim(a)), 1.0 / 3.0 * dual(a) / cbrt(prim(a) ** 2));
+    proc cbrt(a) where isDualType(a.type) {
+        var f = cbrt(prim(a)),
+            df =  1.0 / 3.0 * dual(a) / cbrt(prim(a) ** 2);
+        return todual(f, df);
     }
 }
