@@ -6,10 +6,10 @@
   record DualNumber {
 
     /* primal part of the dual number */
-    var prim : real;
+    var value : real;
     
     /* dual part of the dual number */
-    var dual : real;
+    var derivative : real;
   }
 
   /* A multidual number is a number if the form :math:`a + \sum_{i=1}^nb_i\epsilon_i`,
@@ -20,18 +20,21 @@
     var dom: domain(1);
 
     /* primal part */
-    var prim: real;
+    var value: real;
 
     /* dual parts */
-    var dual: [dom] real;
+    var derivative: [dom] real;
+
+    pragma "no doc"
+    proc init() {}
 
     /*
     constructor to create the multidual number from the primal part and array of dual parts, automatically inferring the domain.
     */
     proc init(val : real, grad : [?dom]) {
       this.dom = dom; 
-      this.prim = val;
-      this.dual = grad;
+      this.value = val;
+      this.derivative = grad;
     }
   }
 
@@ -39,7 +42,7 @@
   proc todual(val : real, der : real) {return new DualNumber(val, der);}
 
   /* Converts a real number and array of reals to a multidual number. */
-  proc todual(val : real, grad : [?D] real) {return new MultiDual(val, grad);}
+  proc todual(val : real, grad : [?D]) {return new MultiDual(val, grad);}
 
   proc isDualType(type t : DualNumber) param {return true;}
 
@@ -52,12 +55,12 @@
   /*
   For dual numbers, it returns the primal part. For real numbers, it returns the number itself.
   */
-  proc prim(a) where isDualType(a.type) {return a.prim;}
+  proc prim(a) where isDualType(a.type) {return a.value;}
 
   /*
   For dual numbers, it returns the dual part, for real numbers it returns zero.
   */
-  proc dual(a) where isDualType(a.type) {return a.dual;}
+  proc dual(a) where isDualType(a.type) {return a.derivative;}
   
   pragma "no doc"
   proc prim(a : real) {return a;}
