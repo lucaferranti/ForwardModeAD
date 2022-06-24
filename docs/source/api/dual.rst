@@ -1,13 +1,9 @@
 .. default-domain:: chpl
 
 .. module:: ForwardModeAD
-   :synopsis: API Documentation
 
-API Documentation
-=================
-
-Dual Numbers
-************
+Dual Types
+==========
 
 .. record:: DualNumber
 
@@ -18,11 +14,11 @@ Dual Numbers
    
 
 
-   .. attribute:: var prim: real
+   .. attribute:: var value: real
 
       primal part of the dual number 
 
-   .. attribute:: var dual: real
+   .. attribute:: var derivative: real
 
       dual part of the dual number 
 
@@ -36,11 +32,11 @@ Dual Numbers
 
       domain for the array of dual parts
 
-   .. attribute:: var prim: real
+   .. attribute:: var value: real
 
       primal part 
 
-   .. attribute:: var dual: [dom] real
+   .. attribute:: var derivative: [dom] real
 
       dual parts 
 
@@ -54,9 +50,17 @@ Dual Numbers
 
    Converts a pair of real numbers to dual number 
 
-.. function:: proc todual(val: real, grad: [?D] real)
+.. function:: proc todual(val: real, grad: [?D])
 
    Converts a real number and array of reals to a multidual number. 
+
+.. function:: proc isDualType(type t) param
+
+   Returns ``true`` if ``t`` is ``DualNumber`` or ``MultiDual``. 
+
+.. function:: proc isEitherDualNumberType(type t, type s) param
+
+   Returns ``true`` if either ``t`` or ``s`` is a dual type (``DualNumber`` or ``MultiDual``). 
 
 .. function:: proc prim(a)
 
@@ -68,35 +72,3 @@ Dual Numbers
 
    
    For dual numbers, it returns the dual part, for real numbers it returns zero.
-   
-
-Differentiation
-***************
-
-.. function:: proc derivative(f, x: real)
-
-   
-   Evaluates the derivative of ``f`` at ``x``.
-   
-   :arg f: Function, note that this must be a concrete function. 
-   :type f: Function
-   
-   :arg x: point at which the derivative is evaluated
-   :type x: real
-   
-   :returns: value of f'(x)
-   :rtype: real
-   
-   Note that `f` must be a concrete function, if it's written as a generic function, you can pass ``derivative`` a lambda as follows
-   
-   .. code-block:: chapel
-   
-     proc f(x) {
-       return x**2 + 2*x + 1;
-     }
-      
-     var dfx = derivative(lambda(x : DualNumber){return f(x);}, 1.0);
-     //outputs
-     //4.0
-   
-
