@@ -8,7 +8,7 @@ module derivative {
   :arg x: point where to evaluate the derivative
   :type x: real or [dom] real
 
-  :returns:    If ``x`` is a real number, then it is initialized to :math:`x+\epsilon`. If ``x`` is a vector of reals, it is initialized to the vector of multiduals :math:`\begin{bmatrix}x\_1+\epsilon_1\\\vdots\\x_n+\epsilon_n`.
+  :returns:    If ``x`` is a real number, then it is initialized to :math:`x+\epsilon`. If ``x`` is a vector of reals, it is initialized to the vector of multiduals :math:`\begin{bmatrix}x_1+\epsilon_1\\\vdots\\x_n+\epsilon_n\end{bmatrix}`.
   :rtype: ``DualNumber`` if ``x`` is ``real`` or ``[dom] MultiDual`` if ``x`` is ``[dom] real``.
   */
   proc initdual(x : real) {
@@ -31,14 +31,19 @@ module derivative {
   Evaluates the derivative of ``f`` at ``x``.
   :arg f: Function, note that this must be a concrete function. 
   :type f: Function
+
   :arg x: point at which the derivative is evaluated
   :type x: real
+
   :returns: value of f'(x)
   :rtype: real
+
   Note that `f` must be a concrete function, if it's written as a generic function, you can pass ``derivative`` a lambda as follows
+
   .. code-block:: chapel
+
     proc f(x) {
-      return x**2 + 2*x + 1;
+        return x**2 + 2*x + 1;
     }
      
     var dfx = derivative(lambda(x : DualNumber){return f(x);}, 1.0);

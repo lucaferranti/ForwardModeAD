@@ -44,12 +44,16 @@
   /* Converts a real number and array of reals to a multidual number. */
   proc todual(val : real, grad : [?D]) {return new MultiDual(val, grad);}
 
+  pragma "no doc"
   proc isDualType(type t : DualNumber) param {return true;}
 
+  pragma "no doc"
   proc isDualType(type t : MultiDual) param {return true;}
   
+  /* Returns ``true`` if ``t`` is ``DualNumber`` or ``MultiDual``. */
   proc isDualType(type t) param {return false;}
   
+  /* Returns ``true`` if either ``t`` or ``s`` is a dual type (``DualNumber`` or ``MultiDual``). */
   proc isEitherDualNumberType(type t, type s) param {return isDualType(t) || isDualType(s);}
 
   /*

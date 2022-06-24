@@ -49,6 +49,6 @@ Contents
    Quickstart Tutorial <tutorial>
    Applications <applications/index>
    Background <background/index>
-   API <api>
+   API <api/index>
    contributing
    references
