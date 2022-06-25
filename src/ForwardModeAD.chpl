@@ -1,6 +1,6 @@
 module ForwardModeAD {
 
-  public use dual;
+  public use dualtype;
   
   public use arithmetic;
 

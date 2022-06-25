@@ -1,3 +1,5 @@
+module dualtype {  
+
   /*
   A dual number is a number in the form :math:`a + b\epsilon`, for which :math:`\epsilon^2 = 0`.
   Via the algebra induced by this definition one can show that :math:`f(a + b\epsilon) = f(a) + bf'(a)\epsilon`
@@ -25,24 +27,13 @@
     /* dual parts */
     var derivative: [dom] real;
 
-    pragma "no doc"
-    proc init() {}
-
-    /*
-    constructor to create the multidual number from the primal part and array of dual parts, automatically inferring the domain.
-    */
-    proc init(val : real, grad : [?dom]) {
-      this.dom = dom; 
-      this.value = val;
-      this.derivative = grad;
-    }
   }
 
   /* Converts a pair of real numbers to dual number */
   proc todual(val : real, der : real) {return new DualNumber(val, der);}
 
   /* Converts a real number and array of reals to a multidual number. */
-  proc todual(val : real, grad : [?D]) {return new MultiDual(val, grad);}
+  proc todual(val : real, grad : [?D]) {return new MultiDual(D, val, [g in grad] g : real);}
 
   pragma "no doc"
   proc isDualType(type t : DualNumber) param {return true;}
@@ -75,4 +66,4 @@
   proc isclose(a, b, rtol=1e-5, atol=0.0) where isEitherDualNumberType(a.type, b.type) {
       return isclose(prim(a), prim(b), rtol=rtol, atol=atol) && isclose(dual(a), dual(b), rtol=rtol, atol=atol);
   }
-  
+}
