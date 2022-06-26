@@ -138,6 +138,8 @@ Using ``initdual`` the strategy is very similar to before, except that now the v
     2.0 1.0
     3.0 5.0
 
+Note that the function should take an array an input and return an array as output.
+
 Alternatively, you can use the ``jacobian`` function, which takes as input the function and the point and returns the jacobian at that point.
 The same restrictions of ``gradient`` apply:
 
