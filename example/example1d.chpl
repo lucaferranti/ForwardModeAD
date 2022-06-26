@@ -43,7 +43,9 @@ proc F(x) {
 var Jf = jacobian(lambda(x : D){return F(x);}, [1.0, 2.0]);
 writeln(Jf, "\n");
 
-writeln(dual(F(initdual([1.0, 2.0]))), "\n");
+var valjac = F(initdual([1.0, 2.0]));
+writeln(dual(valjac), "\n");
+writeln(prim(valjac), "\n");
 
 proc G(x) {return [1, 2, 3];}
 

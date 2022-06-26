@@ -4,7 +4,7 @@
 **NOTE**: project at early stages, everything can change overnight!
 
 Lightweight library for forward-mode automatic differentiation using dual numbers and functions overloading.
-It can compute the derivative and gradient of any function, as long as it is written as a combination of overloaded functions.
+It can compute the derivative, gradient and jacobian of any function, as long as it is written as a combination of [overloaded functions](https://forwardmodead.readthedocs.io/en/latest/api/overloaded.html).
 
 As a showcase, in a few lines we can implement the Newton method for root finding.
 

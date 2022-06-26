@@ -101,7 +101,7 @@ If your function has :math:`n` variables, then this can be achieved with the lin
 
 .. code-block:: chapel
 
-    type D = [0..#n] MultiDual
+    type D = [0..#2] MultiDual
 
 Next, we can compute the gradient similarly to before
 
@@ -114,4 +114,46 @@ Next, we can compute the gradient similarly to before
 
     8.0 3.0
 
+Computing the Jacobian
+**********************
 
+For many-variables manyvalued functions :math:`f:\mathbb{R}^m\rightarrow\mathbb{R}^n` we can compute the Jacobian :math:`J_f`. Both methods described so far still apply.
+
+Using ``initdual`` the strategy is very similar to before, except that now the value of the function and the Jacobian should be extracted with the procedures ``prim`` and ``dual``, respectively.
+
+.. code-block:: chapel
+
+   proc F(x) {
+    return [x[0] ** 2 + x[1] + 1, x[0] + x[1] ** 2 + x[0] * x[1]];
+   }
+
+   var valjac = F(initdual([1.0, 2.0]));
+   writeln(prim(valjac), "\n");
+   writeln(dual(valjac));
+
+.. code-block::
+
+    4.0 7.0
+
+    2.0 1.0
+    3.0 5.0
+
+Alternatively, you can use the ``jacobian`` function, which takes as input the function and the point and returns the jacobian at that point.
+The same restrictions of ``gradient`` apply:
+
+  - The function should be concrete with input ``[D] MultiDual``
+  - The domain ``[D] MultiDual`` should be explicitly written as type alias.
+
+Using the example function above
+
+.. code-block:: chapel
+
+    type D = [0..#2] MultiDual
+
+    var J = jacobian(lambda(x : D){return F(x);}, [1.0, 2.0]);
+    writeln(J);
+
+.. code-block::
+
+    2.0 1.0
+    3.0 5.0

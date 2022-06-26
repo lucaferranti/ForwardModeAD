@@ -57,6 +57,8 @@ module dualtype {
   */
   proc dual(a) where isDualType(a.type) {return a.derivative;}
   
+  proc prim(a : [] MultiDual) {return [i in a] prim(i);}
+  
   proc dual(a : [?Dout] MultiDual, Din : domain(1) = a(0).dom) {
     var res : [Dout.dim(0), Din.dim(0)] real;
     [i in Dout] res(i, Din) = dual(a(i));
