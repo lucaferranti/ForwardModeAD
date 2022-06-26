@@ -57,11 +57,17 @@ module dualtype {
   */
   proc dual(a) where isDualType(a.type) {return a.derivative;}
   
+  proc dual(a : [?Dout] MultiDual, Din : domain(1) = a(0).dom) {
+    var res : [Dout.dim(0), Din.dim(0)] real;
+    [i in Dout] res(i, Din) = dual(a(i));
+    return res;
+  }
+
   pragma "no doc"
-  proc prim(a : real) {return a;}
+  proc prim(a) {return a;}
   
   pragma "no doc"
-  proc dual(a : real) {return 0.0;}
+  proc dual(a) {return 0.0;}
 
   proc isclose(a, b, rtol=1e-5, atol=0.0) where isEitherDualNumberType(a.type, b.type) {
       return isclose(prim(a), prim(b), rtol=rtol, atol=atol) && isclose(dual(a), dual(b), rtol=rtol, atol=atol);

@@ -85,4 +85,40 @@ module derivative {
     res = dual(f(initdual(x)));
     return res;
   }
+
+  /*
+  Evaluates the jacobian of ``f`` at ``x``.
+
+  :arg f: Function, note that this must be a concrete function. 
+  :type f: Function
+
+  :arg x: point at which the jacobian is evaluated
+  :type x: [ ] real
+
+  :returns: value of :math:`J_f`
+  :rtype: [Dout, Din] real
+
+  Note that `f` must be a concrete function, if it's written as a generic function, you can pass ``jacobian`` a lambda as follows
+
+  .. code-block:: chapel
+
+    proc F(x) {
+        return [x[0] ** 2 + x[1] + 1, x[0] + x[1] ** 2 + x[0] * x[1]];
+    }
+
+    type D = [0..#2] MultiDual; // domain for the lambda function
+
+    var Jf = jacobian(lambda(x : D){return F(x);}, [1.0, 2.0]);
+
+    writeln(Jf, "\n");
+    //outputs
+    //2.0 1.0
+    //3.0 5.0
+  */
+  proc jacobian(f, x : [?D]) {
+    var valjac = f(initdual(x));
+    var jac : [valjac.domain.dim(0), D.dim(0)] real;
+    jac = dual(valjac);
+    return jac;
+  }
 }
