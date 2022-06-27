@@ -104,3 +104,60 @@ this can be now solved with our previously developed newton method
     x0 = 0.555374
 
 which is indeed a typical voltage value for a diode.
+
+Newton method in higher dimension
+*********************************
+
+In the previous example we considered one equation in one unknown. The Newton method can also be applied to the case of :math:`n` equations in :math:`n` unknowns,
+that is to solve the nonlinear system of equations :math:`F(X)=\mathbf{0}` with :math:`F:\mathbb{R}^n\rightarrow\mathbb{R}^n`.
+
+The update rule for this higher dimension problem becomes
+
+.. math::
+
+    X_{n+1}=X_n - J_F(X_n)^{-1}F(X_n)
+
+Note that the derivative has now been replaced by the Jacobian. Note also that the quantity :math:`J_F(X_n)^{-1}F(X_n)` can be computed by solving the linear system
+:math:`J_F(X_n)Y=F(X_n)`, using the function ``solve`` from the ``LinearAlgebra`` module, no need to explicitly invert the matrix.
+
+Finally, in 1D our stopping criterion was :math:`|x_n|<tol` for some predefined tolerance. In higher dimensions this generalizes to :math:`\Vert X_n\Vert<tol`,
+where :math:`\Vert\cdot\Vert` is some vector norm. In this example we choose the classical Euclidean norm, computed with the Chapel ``norm`` function from ``LinearAlgebra``.
+
+We now have all the ingredients to program the higher dimension Newton method, let's do it with the following example
+
+.. math::
+
+    \begin{cases}\log(x)-y+0.5=0\\x^2-xy-0.7=0\end{cases}
+
+using as initial guess :math:`X_0=[3, 3]`.
+
+.. code-block:: chapel
+
+    use LinearAlgebra; // needed for solve and norm
+
+    proc F(x) {
+        return [log(x[0]) - x[1] + 0.5, x[0]**2 - x[0]*x[1] - 0.7];
+    }
+
+    var cnt = 0, // to count number of iterations
+        X0 = [3.0, 3.0], // initial guess
+        valjac = F(initdual(X0)), // initial function value and derivative
+        res = norm(prim(valjac)); // initial residue residual ||F(X_0)||
+
+    writeln("Iteration ", cnt, " x = ", X0, " residual = ", res);
+
+    while res > tol {
+        X0 -= solve(dual(valjac), prim(valjac))
+        valjac = F(initdual(X0));
+        res = norm(prim(valjac));
+        cnt += 1;
+        writeln("Iteration ", cnt, " x = ", X0, " residual = ", res);
+    }
+
+.. code-block::
+
+    Iteration 0 x = 3.0 3.0 residual = 1.56649
+    Iteration 1 x = 1.24792 1.01459 residual = 0.503036
+    Iteration 2 x = 1.33736 0.79315 residual = 0.0279132
+    Iteration 3 x = 1.3021 0.764332 residual = 0.000420461
+    Iteration 4 x = 1.30128 0.763349 residual = 2.39082e-07

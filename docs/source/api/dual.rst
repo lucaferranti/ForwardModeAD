@@ -39,11 +39,6 @@ Dual Types
    .. attribute:: var derivative: [dom] real
 
       dual parts 
-
-   .. method:: proc init(val: real, grad: [?dom])
-
-      
-      constructor to create the multidual number from the primal part and array of dual parts, automatically inferring the domain.
       
 
 .. function:: proc todual(val: real, der: real)
