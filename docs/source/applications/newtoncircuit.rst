@@ -81,7 +81,7 @@ Subsituting the previous values and equations we get
 .. math::
     g(V_D) = 10^{-9}\left(e^{40V_D}-1\right) + V_D - 5 = 0
 
-this can be now solved with our previously developed newton method
+this can be now solved with our previously developed Newton method
 
 .. code-block:: chapel
 
