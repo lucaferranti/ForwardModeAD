@@ -30,7 +30,7 @@ Finally, compile your code as
 where ``prefix`` is the path where you cloned the repository.
 
 
-Derivates in one dimension
+Derivatives in one dimension
 **************************
 
 Suppose we have a function
