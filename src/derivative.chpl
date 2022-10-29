@@ -54,6 +54,12 @@ module derivative {
     return dual(f(initdual(x)));
   }
 
+  pragma "no doc"
+  proc derivative(x: DualNumber) {return dual(x);}
+
+  pragma "no doc"
+  proc derivative(x: real) {return 0.0;}
+
   /*
   Evaluates the gradient of ``f`` at ``x``.
 
@@ -86,6 +92,9 @@ module derivative {
     return res;
   }
 
+  pragma "no doc"
+  proc gradient(x: MultiDual) {return dual(x);}
+  
   /*
   Evaluates the jacobian of ``f`` at ``x``.
 
@@ -121,4 +130,10 @@ module derivative {
     jac = dual(valjac);
     return jac;
   }
+
+  pragma "no doc"
+  proc jacobian(x: [?D] MultiDual) { return dual(x);}
+
+  pragma "no doc"
+  proc value(x) {return prim(x);}
 }

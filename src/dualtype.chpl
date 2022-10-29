@@ -8,10 +8,10 @@ module dualtype {
   record DualNumber {
 
     /* primal part of the dual number */
-    var value : real;
+    var prim : real;
     
     /* dual part of the dual number */
-    var derivative : real;
+    var dual : real;
   }
 
   /* A multidual number is a number if the form :math:`a + \sum_{i=1}^nb_i\epsilon_i`,
@@ -22,10 +22,10 @@ module dualtype {
     var dom: domain(1);
 
     /* primal part */
-    var value: real;
+    var prim: real;
 
     /* dual parts */
-    var derivative: [dom] real;
+    var dual: [dom] real;
 
   }
 
@@ -50,12 +50,12 @@ module dualtype {
   /*
   For dual numbers, it returns the primal part. For real numbers, it returns the number itself.
   */
-  proc prim(a) where isDualType(a.type) {return a.value;}
+  proc prim(a) where isDualType(a.type) {return a.prim;}
 
   /*
   For dual numbers, it returns the dual part, for real numbers it returns zero.
   */
-  proc dual(a) where isDualType(a.type) {return a.derivative;}
+  proc dual(a) where isDualType(a.type) {return a.dual;}
   
   proc prim(a : [] MultiDual) {return [i in a] prim(i);}
   

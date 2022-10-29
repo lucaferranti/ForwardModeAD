@@ -52,8 +52,8 @@ The resulting variable ``valder`` is an object of type ``DualNumber`` and the va
 
 .. code-block:: chapel
 
-    writeln(valder.value); // value of f(0)
-    writeln(valder.derivative) // value of f'(0)
+    writeln(value(valder)); // value of f(0)
+    writeln(derivative(valder)) // value of f'(0)
 
 .. code-block::
 
@@ -88,8 +88,8 @@ In the following example, we compute the gradient of :math:`h(x, y) = x^2 + 3xy+
     }
 
     var valgrad = h(initdual([1.0, 2.0]));
-    writeln(valgrad.value) // prints the value of h(1.0, 2.0)
-    writeln(valgrad.derivative) // prints the value of ∇h(1.0, 2.0)
+    writeln(value(valgrad) // prints the value of h(1.0, 2.0)
+    writeln(gradient(valgrad)) // prints the value of ∇h(1.0, 2.0)
 
 .. code-block::
 
@@ -128,8 +128,8 @@ Using ``initdual`` the strategy is very similar to before, except that now the v
    }
 
    var valjac = F(initdual([1.0, 2.0]));
-   writeln(prim(valjac), "\n");
-   writeln(dual(valjac));
+   writeln(value(valjac), "\n");
+   writeln(jacobian(valjac));
 
 .. code-block::
 

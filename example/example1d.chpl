@@ -8,7 +8,7 @@ proc f(x) {
 var df = derivative(lambda(x : DualNumber) {return f(x);}, 1.0);
 writeln(df, "\n");
 
-var df1 = f(initdual(1.0)).derivative;
+var df1 = derivative(f(initdual(1.0)));
 writeln(df1, "\n");
 
 // proc df(x) {
@@ -33,7 +33,7 @@ proc h(x) {
 var dh = gradient(lambda(x : D){return h(x);}, [1.0, 2.0]);
 writeln(dh, "\n");
 
-var dh1 = h(initdual([1.0, 2.0])).derivative;
+var dh1 = gradient(h(initdual([1.0, 2.0])));
 writeln(dh1, "\n");
 
 proc F(x) {
@@ -44,8 +44,8 @@ var Jf = jacobian(lambda(x : D){return F(x);}, [1.0, 2.0]);
 writeln(Jf, "\n");
 
 var valjac = F(initdual([1.0, 2.0]));
-writeln(dual(valjac), "\n");
-writeln(prim(valjac), "\n");
+writeln(value(valjac), "\n");
+writeln(jacobian(valjac), "\n");
 
 proc G(x) {return [1, 2, 3];}
 

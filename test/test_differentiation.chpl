@@ -12,8 +12,8 @@ proc testUnivariateFunctions(test: borrowed Test) throws {
   test.assertEqual(df, 4.0);
 
   var valder = f(initdual(1));
-  test.assertEqual(valder.value, 4.0);
-  test.assertEqual(valder.derivative, 4.0);
+  test.assertEqual(value(valder), 4.0);
+  test.assertEqual(derivative(valder), 4.0);
 }
 
 proc testGradient(test: borrowed Test) throws {
@@ -30,8 +30,8 @@ proc testGradient(test: borrowed Test) throws {
 
   // TODO: debug why doesn't work with integer input
   var valgradh = h(initdual([1.0, 2.0]));
-  test.assertEqual(valgradh.value, 7);
-  test.assertEqual(valgradh.derivative, [8.0, 3.0]);
+  test.assertEqual(value(valgradh), 7);
+  test.assertEqual(gradient(valgradh), [8.0, 3.0]);
 }
 
 proc testJacobian(test: borrowed Test) throws {
@@ -43,8 +43,8 @@ proc testJacobian(test: borrowed Test) throws {
       _jac: [0..1, 0..1] real = ((2.0, 1.0), (3.0, 5.0));
 
   // TODO: revisit once API is updated
-  test.assertEqual(prim(valjac), [4.0, 7.0]);
-  test.assertEqual(dual(valjac), _jac);
+  test.assertEqual(value(valjac), [4.0, 7.0]);
+  test.assertEqual(jacobian(valjac), _jac);
 
   proc G(x) {return [1, 2, 3];}
 
