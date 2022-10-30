@@ -5,7 +5,7 @@ Contributing
 
 Thank you a lot for the interest!
 
-If you encounter bugs or have feature requests or just comments / feedback, do not hesitate to [open an issue](https://github.com/lucaferranti/ForwardModeAD/issues/new)
+If you encounter bugs or have feature requests or just comments / feedback, do not hesitate to `open an issue <https://github.com/lucaferranti/ForwardModeAD/issues/new>`_
 
 Pull requests fixing bugs, improving docs or adding features are also welcome! For bigger changes, it is recommendable to open an issue first to discuss.
 
@@ -32,14 +32,4 @@ Git workflow
 
 6. Push to the new branch with ``git push -u origin branchname``. This will set the remote branch, so next time you push to the same branch you can just do ``git push``
 
-7. Go to [the main repo](https://github.com/lucaferranti/ForwardModeAD) and open a PR
-
-Coding guidelines
-*****************
-
-COMING SOON!
-
-Documentation guidelines
-************************
-
-COMING SOON!
+7. Go to `the main repository <https://github.com/lucaferranti/ForwardModeAD>`_ and open a pull request.

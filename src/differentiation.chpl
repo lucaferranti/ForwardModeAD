@@ -1,4 +1,4 @@
-module derivative {
+module differentiation {
   
   use ForwardModeAD;
 
@@ -9,15 +9,15 @@ module derivative {
   :type x: real or [dom] real
 
   :returns:    If ``x`` is a real number, then it is initialized to :math:`x+\epsilon`. If ``x`` is a vector of reals, it is initialized to the vector of multiduals :math:`\begin{bmatrix}x_1+\epsilon_1\\\vdots\\x_n+\epsilon_n\end{bmatrix}`.
-  :rtype: ``DualNumber`` if ``x`` is ``real`` or ``[dom] MultiDual`` if ``x`` is ``[dom] real``.
+  :rtype: ``dual`` if ``x`` is ``real`` or ``[dom] multidual`` if ``x`` is ``[dom] real``.
   */
   proc initdual(x : real) {
-    return new DualNumber(x, 1.0);
+    return new dual(x, 1.0);
   }
 
   pragma "no doc"
   proc initdual(x : [?D] real) {
-    var x0 : [D] MultiDual;
+    var x0 : [D] multidual;
     forall i in D {
       var eps : [D] real = 0.0;
       eps[i] = 1.0;
@@ -29,6 +29,7 @@ module derivative {
 
   /*
   Evaluates the derivative of ``f`` at ``x``.
+
   :arg f: Function, note that this must be a concrete function. 
   :type f: Function
 
@@ -46,13 +47,19 @@ module derivative {
         return x**2 + 2*x + 1;
     }
      
-    var dfx = derivative(lambda(x : DualNumber){return f(x);}, 1.0);
+    var dfx = derivative(lambda(x : dual){return f(x);}, 1.0);
     //outputs
     //4.0
   */
   proc derivative(f, x : real) {
-    return dual(f(initdual(x)));
+    return dualPart(f(initdual(x)));
   }
+
+  /* Extracts the derivative from a dual number. */
+  proc derivative(x: dual) {return dualPart(x);}
+
+  pragma "no doc"
+  proc derivative(x: real) {return 0.0;}
 
   /*
   Evaluates the gradient of ``f`` at ``x``.
@@ -74,7 +81,7 @@ module derivative {
         return x[0] ** 2 + 3 * x[0] * x[1];
     }
 
-    type D = [0..#2] MultiDual; // domain for the lambda function
+    type D = [0..#2] multidual; // domain for the lambda function
 
     var dh = gradient(lambda(x : D){return h(x);}, [1.0, 2.0]);
     //outputs
@@ -82,10 +89,13 @@ module derivative {
   */
   proc gradient(f, x : [?D] real) {
     var res : [D] real;
-    res = dual(f(initdual(x)));
+    res = dualPart(f(initdual(x)));
     return res;
   }
 
+  /* Extracts the gradient from a multidual number. */
+  proc gradient(x: multidual) {return dualPart(x);}
+  
   /*
   Evaluates the jacobian of ``f`` at ``x``.
 
@@ -106,7 +116,7 @@ module derivative {
         return [x[0] ** 2 + x[1] + 1, x[0] + x[1] ** 2 + x[0] * x[1]];
     }
 
-    type D = [0..#2] MultiDual; // domain for the lambda function
+    type D = [0..#2] multidual; // domain for the lambda function
 
     var Jf = jacobian(lambda(x : D){return F(x);}, [1.0, 2.0]);
 
@@ -118,7 +128,17 @@ module derivative {
   proc jacobian(f, x : [?D]) {
     var valjac = f(initdual(x));
     var jac : [valjac.domain.dim(0), D.dim(0)] real;
-    jac = dual(valjac);
+    jac = dualPart(valjac);
     return jac;
   }
+
+  /* Extracts the Jacobian from an array of multidual numbers. */
+  proc jacobian(x: [?D] multidual) { return dualPart(x);}
+
+  /* Extracts the function value.
+
+  :arg x: result of computations using dual numbers.
+  :type x: dual, multidual or [] multidual.
+  */
+  proc value(x) {return primalPart(x);}
 }

@@ -37,21 +37,18 @@ using initial guess :math:`x_0=0.5` and tolerance :math:`10^{-6}`.
 
     var tol = 1e-6, // tolerance to find the root
         cnt = 0, // to count number of iterations
-        x0 = 0.5, // initial guess
-        valder = f(initdual(x0)); // initial function value and derivative
+        x0 = initdual(0.5), // initial guess
+        valder = f(x0); // initial function value and derivative
 
-    writeln("Iteration ", cnt, " x = ", x0, " residual = ", valder.value);
-
-    while abs(valder.value) > tol {
-        x0 -= valder.value / valder.derivative;
-        valder = f(initdual(x0));
+    while abs(value(valder)) > tol {
+        x0 -= value(valder) / derivative(valder);
+        valder = f(x0);
         cnt += 1;
-        writeln("Iteration ", cnt, " x = ", x0, " residual = ", valder.value);
+        writeln("Iteration ", cnt, " x = ", value(x0), " residual = ", value(valder));
     }
 
 .. code-block::
 
-    Iteration 0 x = 0.5 residual = 0.983933
     Iteration 1 x = 1.05953 residual = 0.244472
     Iteration 2 x = 1.28662 residual = 0.0131033
     Iteration 3 x = 1.3002 residual = 4.13149e-05
@@ -68,7 +65,7 @@ using values :math:`R=1~\textrm{k}\Omega` and :math:`E=5~\textrm{V}`.
 
 .. image:: circuit.png
 
-The resistor is modeled via Ohm law :math:`U_R=RI` and the diode via Schockley equation :math:`I=I_S\left(e^\frac{V_D}{V_T}-1\right)`, with :math:`I_S\approx10^{-1}` and :math:`V_T\approx25~\textrm{mV}`.
+The resistor is modeled via Ohm law :math:`U_R=RI` and the diode via Schockley equation :math:`I=I_S\left(e^\frac{V_D}{V_T}-1\right)`, with :math:`I_S\approx10^{-12}` and :math:`V_T\approx25~\textrm{mV}`.
 
 By Kirchoff voltage law we have
 
@@ -88,16 +85,17 @@ this can be now solved with our previously developed Newton method
     proc g(vd) {
         return 1e-9 * (exp(40 * vd) - 1) + vd - 5;
     }
+    
+    var Vd = initdual(0.0), // voltage initial guess
+        Id = g(Vd), // initial current value
+        tol = 1e-6; // tolerance
 
-    var x0 = 0.0,
-        valder = g(initdual(x0));
-
-    while abs(valder.value) > tol {
-        x0 -= valder.value / valder.derivative;
-        valder = g(initdual(x0));
+    while abs(value(Id)) > tol {
+      Vd -= value(Id) / derivative(Id);
+      Id = g(Vd);
     }
 
-    writeln("x0 = ", x0);
+    writeln("V = ", value(Vd), "\n");
 
 .. code-block::
 
@@ -140,16 +138,17 @@ using as initial guess :math:`X_0=[3, 3]`.
     }
 
     var cnt = 0, // to count number of iterations
+        tol = 1e-6, // tolerance
         X0 = [3.0, 3.0], // initial guess
         valjac = F(initdual(X0)), // initial function value and derivative
-        res = norm(prim(valjac)); // initial residue residual ||F(X_0)||
+        res = norm(value(valjac)); // initial residue residual ||F(X_0)||
 
     writeln("Iteration ", cnt, " x = ", X0, " residual = ", res);
 
     while res > tol {
-        X0 -= solve(dual(valjac), prim(valjac))
+        X0 -= solve(jacobian(valjac), value(valjac))
         valjac = F(initdual(X0));
-        res = norm(prim(valjac));
+        res = norm(value(valjac));
         cnt += 1;
         writeln("Iteration ", cnt, " x = ", X0, " residual = ", res);
     }

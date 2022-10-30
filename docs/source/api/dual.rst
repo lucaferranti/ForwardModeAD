@@ -5,7 +5,7 @@
 Dual Types
 ==========
 
-.. record:: DualNumber
+.. record:: dual
 
    
    A dual number is a number in the form :math:`a + b\epsilon`, for which :math:`\epsilon^2 = 0`.
@@ -14,15 +14,15 @@ Dual Types
    
 
 
-   .. attribute:: var value: real
+   .. attribute:: var primalPart: real
 
       primal part of the dual number 
 
-   .. attribute:: var derivative: real
+   .. attribute:: var dualPart: real
 
       dual part of the dual number 
 
-.. record:: MultiDual
+.. record:: multidual
 
    A multidual number is a number if the form :math:`a + \sum_{i=1}^nb_i\epsilon_i`,
    for which it holds :math:`\epsilon_i^2=0` and :math:`\epsilon_i\epsilon_j=0` for any indices :math:`i, j`. 
@@ -32,14 +32,13 @@ Dual Types
 
       domain for the array of dual parts
 
-   .. attribute:: var value: real
+   .. attribute:: var primalPart: real
 
       primal part 
 
-   .. attribute:: var derivative: [dom] real
+   .. attribute:: var dualPart: [dom] real
 
       dual parts 
-      
 
 .. function:: proc todual(val: real, der: real)
 
@@ -51,19 +50,16 @@ Dual Types
 
 .. function:: proc isDualType(type t) param
 
-   Returns ``true`` if ``t`` is ``DualNumber`` or ``MultiDual``. 
+   Returns ``true`` if ``t`` is ``dual`` or ``multidual``. 
 
-.. function:: proc isEitherDualNumberType(type t, type s) param
+.. function:: proc isEitherDualType(type t, type s) param
 
-   Returns ``true`` if either ``t`` or ``s`` is a dual type (``DualNumber`` or ``MultiDual``). 
+   Returns ``true`` if either ``t`` or ``s`` is a dual type (``dual`` or ``multidual``). 
 
-.. function:: proc prim(a)
-
+.. function:: proc primalPart(a)
    
    For dual numbers, it returns the primal part. For real numbers, it returns the number itself.
-   
 
-.. function:: proc dual(a)
-
+.. function:: proc dualPart(a)
    
    For dual numbers, it returns the dual part, for real numbers it returns zero.

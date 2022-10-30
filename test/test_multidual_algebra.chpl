@@ -7,8 +7,8 @@ proc test_arithmetic_operations(test : borrowed Test) throws {
         y = todual(3, [3, 4]),
         c = 2;
 
-    test.assertEqual(prim(x), 1.0);
-    test.assertEqual(dual(x), [2.0, 3.0]);
+    test.assertEqual(primalPart(x), 1.0);
+    test.assertEqual(dualPart(x), [2.0, 3.0]);
 
     test.assertTrue(+x == x);
     test.assertEqual(-x, todual(-1, [-2, -3]));

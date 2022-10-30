@@ -1,4 +1,0 @@
-Gradient descent
-================
-
-COMING SOON

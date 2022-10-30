@@ -2,7 +2,7 @@ Dual Numbers
 ============
 
 A dual number is a number in the form :math:`a + b \epsilon`, where :math:`a, b\in\mathbb{R}` and :math:`\epsilon` is the
-`dual unit` (or `infinitesimal`), which has the property :math:`\epsilon^2=0`. In this tutorial, we will review the theory of dual number, define their algebra
+`dual unit` (or `infinitesimal`), which has the property :math:`\epsilon^2=0`. In this tutorial, we will review the theory of dual numbers, define their algebra
 and discuss why dual numbers are useful for automatic differentiation.
 
 Arithmetic operations
@@ -56,7 +56,7 @@ The same calculations can be repeated for the more generic case :math:`P(f+f'\ep
 
 .. math::
 
-    P(f+f'\epsilon)=P(f)+P(f)f'\epsilon
+    P(f+f'\epsilon)=P(f)+P'(f)f'\epsilon
 
 hence the primal part is the composition of functions and the dual part is the derivative of the composition, computed as expected by the chain rule.
 
@@ -86,6 +86,6 @@ and hence the primal part is the composition of the functions and the dual part 
 We have those shown that the algebra of dual numbers is the algebra of derivatives. Given a function :math:`f`, its derivative at :math:`a` can be extracted from the dual part of
 :math:`f(a+\epsilon)`.
 
-This can be easily implementing in a programming language via function (and operator) overloading. First, define a type ``DualNumber`` and overload arithmetic operations as described here
+This can be easily implementing in a programming language via function (and operator) overloading. First, define a type ``dual`` and overload arithmetic operations as described here
 and elementary functions using the derivation rules. If the function is written as a composition of the available overloaded elementary functions, 
 the derivative can be computed automatically using dual numbers. This is exactly what is done in ``ForwardModeAD``. 

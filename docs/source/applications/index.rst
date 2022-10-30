@@ -7,5 +7,4 @@ Applications
     :maxdepth: 1
 
     newtoncircuit
-    optimisation
     
