@@ -12,5 +12,5 @@ module ForwardModeAD {
 
   public use hyperbolic;
 
-  public use derivative;
+  public use differentiation;
 }
