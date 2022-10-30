@@ -65,6 +65,10 @@ module dualtype {
     return res;
   }
 
+  proc dualPart(a: [] dual) {
+    return [ai in a] dualPart(ai);
+  }
+
   pragma "no doc"
   proc primalPart(a) {return a;}
   

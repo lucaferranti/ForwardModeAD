@@ -2,6 +2,7 @@ use UnitTest;
 use ForwardModeAD;
 
 type D = [0..#2] multidual;
+type D2 = [0..#2] dual;
 
 proc testUnivariateFunctions(test: borrowed Test) throws {
   proc f(x) {
@@ -57,10 +58,13 @@ proc testDirectionalAndJvp(test: borrowed Test) throws {
     return x[0] ** 2 + 3 * x[0] * x[1];
   }
 
-  var dirder = f(initdual([1, 2], [0.5, 2.0]));
+  var valdirder = f(initdual([1, 2], [0.5, 2.0]));
 
-  test.assertEqual(value(dirder), 7);
-  test.assertEqual(directionalDerivative(dirder), 10);
+  test.assertEqual(value(valdirder), 7);
+  test.assertEqual(directionalDerivative(valdirder), 10);
+
+  var dirder = directionalDerivative(lambda(x: D2) {return f(x);}, [1, 2], [0.5, 2.0]);
+  test.assertEqual(dirder, 10);
 
   proc F(x) {
     return [x[0] ** 2 + x[1] + 1, x[0] + x[1] ** 2 + x[0] * x[1]];
@@ -69,6 +73,9 @@ proc testDirectionalAndJvp(test: borrowed Test) throws {
   var valjvp = F(initdual([1, 2], [0.5, 2.0]));
   test.assertEqual(value(valjvp), [4.0, 7.0]);
   test.assertEqual(jvp(valjvp), [3.0, 11.5]);
+
+  var Jv = jvp(lambda(x: D2) {return F(x);}, [1, 2], [0.5, 2.0]);
+  test.assertEqual(Jv, [3.0, 11.5]);
 }
 
 UnitTest.main();

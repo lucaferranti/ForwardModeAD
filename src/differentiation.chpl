@@ -27,7 +27,7 @@ module differentiation {
   }
 
   /*
-  Given a vector ``x`` and a vector ``v``, creates a vector of duals ``[x_i + \epsilon v_i]``.
+  Given a vector ``x`` and a vector ``v``, creates a vector of duals :math:`[x_i + \epsilon v_i]`.
   Used to compute directional derivative and Jacobian-vector product (JVP).
 
   :arg x: point where to evaluate the directional derivative / JVP
@@ -123,7 +123,7 @@ module differentiation {
   :returns: value of :math:`J_f`
   :rtype: [Dout, Din] real
 
-  Note that `f` must be a concrete function, if it's written as a generic function, you can pass ``jacobian`` a lambda as follows
+  Note that ``f`` must be a concrete function, if it's written as a generic function, you can pass ``jacobian`` a lambda as follows
 
   .. code-block:: chapel
 
@@ -157,11 +157,23 @@ module differentiation {
   */
   proc value(x) {return primalPart(x);}
 
+  /* Extracts the directional derivative from a dual number. */
   proc directionalDerivative(x: dual) {
     return dualPart(x);
   }
 
+  /* Computes the directional derivative of ``f`` at ``x`` in the direction of ``v``. */
+  proc directionalDerivative(f, x: [?D], v: [D]) {
+    return dualPart(f(initdual(x, v)));
+  }
+
+  /* Extracts the Jacobian-vector product from a vector of dual numbers. */
   proc jvp(x: [] dual) {
-    return [xi in x] dualPart(xi);
+    return dualPart(x);
+  }
+
+  /* Computes the Jacobian-vector product of the Jacobian of ``f`` at ``x`` and vector ``v``. */
+  proc jvp(f, x: [?D], v: [D]) {
+    return dualPart(f(initdual(x, v)));
   }
 }

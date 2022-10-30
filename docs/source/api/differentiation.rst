@@ -7,32 +7,46 @@ Functions for differentiation
 
 .. function:: proc initdual(x: real)
 
-   
+
    Initializes the input to the appropriate dual number to evalute the derivative.
-   
+
    :arg x: point where to evaluate the derivative
    :type x: real or [dom] real
-   
+
    :returns:    If ``x`` is a real number, then it is initialized to :math:`x+\epsilon`. If ``x`` is a vector of reals, it is initialized to the vector of multiduals :math:`\begin{bmatrix}x_1+\epsilon_1\\\vdots\\x_n+\epsilon_n\end{bmatrix}`.
    :rtype: ``dual`` if ``x`` is ``real`` or ``[dom] multidual`` if ``x`` is ``[dom] real``.
-   
+
+.. function:: proc initdual(x: [?D] ?t, v: [D] ?s)
+
+
+   Given a vector ``x`` and a vector ``v``, creates a vector of duals :math:`[x_i + \epsilon v_i]`.
+   Used to compute directional derivative and Jacobian-vector product (JVP).
+
+   :arg x: point where to evaluate the directional derivative / JVP
+   :type x: [D] real
+
+   :arg v: direction
+   :type v: [D] real
+
+   :returns: Vector of dual numbers
+   :rtype: [D] dual
 
 .. function:: proc derivative(f, x: real)
 
-   
+
    Evaluates the derivative of ``f`` at ``x``.
 
    :arg f: Function, note that this must be a concrete function. 
    :type f: Function
-   
+
    :arg x: point at which the derivative is evaluated
    :type x: real
-   
+
    :returns: value of f'(x)
    :rtype: real
-   
+
    Note that `f` must be a concrete function, if it's written as a generic function, you can pass ``derivative`` a lambda as follows
-   
+
    .. code-block:: chapel
    
      proc f(x) {
@@ -95,7 +109,7 @@ Functions for differentiation
    :returns: value of :math:`J_f`
    :rtype: [Dout, Din] real
    
-   Note that `f` must be a concrete function, if it's written as a generic function, you can pass ``jacobian`` a lambda as follows
+   Note that ``f`` must be a concrete function, if it's written as a generic function, you can pass ``jacobian`` a lambda as follows
    
    .. code-block:: chapel
    
@@ -123,3 +137,19 @@ Functions for differentiation
 
    :arg x: result of computations using dual numbers.
    :type x: dual, multidual or [] multidual.
+
+.. function:: proc directionalDerivative(x: dual)
+
+   Extracts the directional derivative from a dual number.
+
+.. function:: proc directionalDerivative(f, x: [?D], v: [D])
+
+   Computes the directional derivative of ``f`` at ``x`` in the direction of ``v``.
+
+.. function:: proc jvp(x: [] dual)
+
+   Extracts the Jacobian-vector product from a vector of dual numbers.
+
+.. function:: proc jvp(f, x: [?D], v: [D])
+
+   Computes the Jacobian-vector product of the Jacobian of ``f`` at ``x`` and vector ``v``.
