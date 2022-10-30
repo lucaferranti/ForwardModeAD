@@ -48,7 +48,7 @@ at the resulting dual number.
 
     var valder = f(initdual(0.0));
 
-The resulting variable ``valder`` is an object of type ``DualNumber`` and the value of the function is stored in the field ``value`` and the value of the derivative in the field ``derivative``.
+The resulting variable ``valder`` is an object of type ``dual`` and the value of the function is stored in the field ``value`` and the value of the derivative in the field ``derivative``.
 
 .. code-block:: chapel
 
@@ -61,12 +61,12 @@ The resulting variable ``valder`` is an object of type ``DualNumber`` and the va
     2.0
 
 Alternatively, you can use the ``derivative`` function. This function takes as first input a function and as second input a real number. It is important to notice that the function
-passed to ``derivative`` must be a concrete function (type signature specified) that takes as input a ``DualNumber``. If your function is generic (as in the example above), you can
+passed to ``derivative`` must be a concrete function (type signature specified) that takes as input a ``dual``. If your function is generic (as in the example above), you can
 achieve this passing a lambda function, as the example below demonstrates.
 
 .. code-block:: chapel
 
-    var dfx0 = derivative(lambda(x : DualNumber) {return f(x);}, 0.0);
+    var dfx0 = derivative(lambda(x : dual) {return f(x);}, 0.0);
     writeln(dfx0);
 
 .. code-block::
@@ -77,7 +77,7 @@ Computing the gradient
 **********************
 
 The gradient of a multivariate function :math:`f : \mathbb{R}^n \rightarrow \mathbb{R}`, can be computed the same way of the derivative using ``initdual``.
-The only difference is that the input is now initialized to an array of ``MultiDual``.
+The only difference is that the input is now initialized to an array of ``multidual``.
 In the following example, we compute the gradient of :math:`h(x, y) = x^2 + 3xy+1` at the point :math:`(1, 2)`. Note in the implementation below that
 **the function should accept a single array as input**.
 
@@ -101,7 +101,7 @@ If your function has :math:`n` variables, then this can be achieved with the lin
 
 .. code-block:: chapel
 
-    type D = [0..#2] MultiDual
+    type D = [0..#2] multidual
 
 Next, we can compute the gradient similarly to before
 
@@ -143,14 +143,14 @@ Note that the function should take an array an input and return an array as outp
 Alternatively, you can use the ``jacobian`` function, which takes as input the function and the point and returns the jacobian at that point.
 The same restrictions of ``gradient`` apply:
 
-  - The function should be concrete with input ``[D] MultiDual``
-  - The domain ``[D] MultiDual`` should be explicitly written as type alias.
+  - The function should be concrete with input ``[D] multidual``
+  - The domain ``[D] multidual`` should be explicitly written as type alias.
 
 Using the example function above
 
 .. code-block:: chapel
 
-    type D = [0..#2] MultiDual
+    type D = [0..#2] multidual
 
     var J = jacobian(lambda(x : D){return F(x);}, [1.0, 2.0]);
     writeln(J);

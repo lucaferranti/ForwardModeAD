@@ -14,7 +14,7 @@ Functions for differentiation
    :type x: real or [dom] real
    
    :returns:    If ``x`` is a real number, then it is initialized to :math:`x+\epsilon`. If ``x`` is a vector of reals, it is initialized to the vector of multiduals :math:`\begin{bmatrix}x_1+\epsilon_1\\\vdots\\x_n+\epsilon_n\end{bmatrix}`.
-   :rtype: ``DualNumber`` if ``x`` is ``real`` or ``[dom] MultiDual`` if ``x`` is ``[dom] real``.
+   :rtype: ``dual`` if ``x`` is ``real`` or ``[dom] multidual`` if ``x`` is ``[dom] real``.
    
 
 .. function:: proc derivative(f, x: real)
@@ -38,10 +38,14 @@ Functions for differentiation
          return x**2 + 2*x + 1;
      }
       
-     var dfx = derivative(lambda(x : DualNumber){return f(x);}, 1.0);
+     var dfx = derivative(lambda(x : dual){return f(x);}, 1.0);
      //outputs
      //4.0
    
+
+.. function:: proc derivative(x: dual)
+
+   Extracts the derivative from a dual number.
 
 .. function:: proc gradient(f, x: [?D] real)
 
@@ -65,11 +69,16 @@ Functions for differentiation
          return x[0] ** 2 + 3 * x[0] * x[1];
      }
    
-     type D = [0..#2] MultiDual; // domain for the lambda function
+     type D = [0..#2] multidual; // domain for the lambda function
    
      var dh = gradient(lambda(x : D){return h(x);}, [1.0, 2.0]);
      //outputs
      //8.0 3.0
+   
+
+.. function:: proc gradient(x: multidual)
+
+   Extracts the gradient from a multidual number. 
 
 .. function:: proc jacobian(f, x: [?D])
 
@@ -93,7 +102,7 @@ Functions for differentiation
          return [x[0] ** 2 + x[1] + 1, x[0] + x[1] ** 2 + x[0] * x[1]];
      }
    
-     type D = [0..#2] MultiDual; // domain for the lambda function
+     type D = [0..#2] multidual; // domain for the lambda function
    
      var Jf = jacobian(lambda(x : D){return F(x);}, [1.0, 2.0]);
    
@@ -101,3 +110,14 @@ Functions for differentiation
      //outputs
      //2.0 1.0
      //3.0 5.0
+   
+
+.. function:: proc jacobian(x: [?D] multidual)
+
+   Extracts the Jacobian from an array of multidual numbers. 
+
+.. function:: proc value(x)
+
+   Extracts the value part.
+   :arg x: object containing value and derivative information.
+   :type x: dual, multidual or [] multidual.

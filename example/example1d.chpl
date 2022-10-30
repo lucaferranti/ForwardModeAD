@@ -5,14 +5,14 @@ proc f(x) {
 }
 
 
-var df = derivative(lambda(x : DualNumber) {return f(x);}, 1.0);
+var df = derivative(lambda(x : dual) {return f(x);}, 1.0);
 writeln(df, "\n");
 
 var df1 = derivative(f(initdual(1.0)));
 writeln(df1, "\n");
 
 // proc df(x) {
-//     return derivative(lambda(t : DualNumber) {return f(t);}, x);
+//     return derivative(lambda(t : dual) {return f(t);}, x);
 // }
 
 // var z = df(1.0);
@@ -21,7 +21,7 @@ proc g(x) {
     return 2.0;
 }
 
-type D = [0..#2] MultiDual;
+type D = [0..#2] multidual;
 
 var dg = gradient(lambda(x : D) {return g(x);}, [1.0, 2.0]);
 writeln(dg, "\n");

@@ -4,50 +4,50 @@ module arithmetic {
     operator +(a) where isDualType(a.type) { return a; }
 
     operator -(a) where isDualType(a.type) { 
-        var f = -prim(a),
-            df = -dual(a);
+        var f = -primalPart(a),
+            df = -dualPart(a);
         return todual(f, df); 
     }
 
-    operator +(a, b) where isEitherDualNumberType(a.type, b.type) {
-        var f = prim(a) + prim(b);
-        var df = dual(a) + dual(b);
+    operator +(a, b) where isEitherDualType(a.type, b.type) {
+        var f = primalPart(a) + primalPart(b);
+        var df = dualPart(a) + dualPart(b);
         return todual(f, df);
     }
 
-    operator -(a, b) where isEitherDualNumberType(a.type, b.type) {
-        var f = prim(a) - prim(b);
-        var df = dual(a) - dual(b);
+    operator -(a, b) where isEitherDualType(a.type, b.type) {
+        var f = primalPart(a) - primalPart(b);
+        var df = dualPart(a) - dualPart(b);
         return todual(f, df);
     }
 
-    operator *(a, b) where isEitherDualNumberType(a.type, b.type) {
-        var f = prim(a) * prim(b),
-            df = dual(a) * prim(b) + prim(a) * dual(b);
+    operator *(a, b) where isEitherDualType(a.type, b.type) {
+        var f = primalPart(a) * primalPart(b),
+            df = dualPart(a) * primalPart(b) + primalPart(a) * dualPart(b);
         return todual(f, df);
     }
 
-    operator /(a, b) where isEitherDualNumberType(a.type, b.type) {
-        var f = prim(a) / prim(b),
-            df = (dual(a) * prim(b) - prim(a) * dual(b)) / prim(b) ** 2;
+    operator /(a, b) where isEitherDualType(a.type, b.type) {
+        var f = primalPart(a) / primalPart(b),
+            df = (dualPart(a) * primalPart(b) - primalPart(a) * dualPart(b)) / primalPart(b) ** 2;
         return todual(f, df); 
     }
 
     operator **(a, b : real) where isDualType(a.type) {
-        var f = prim(a) ** b,
-            df = b * (prim(a) ** (b - 1)) * dual(a);
+        var f = primalPart(a) ** b,
+            df = b * (primalPart(a) ** (b - 1)) * dualPart(a);
         return todual(f, df);
     }
 
     proc sqrt(a) where isDualType(a.type) {
-        var f = sqrt(prim(a)),
-            df = 0.5 * dual(a) / sqrt(prim(a));
+        var f = sqrt(primalPart(a)),
+            df = 0.5 * dualPart(a) / sqrt(primalPart(a));
         return todual(f, df);
     }
 
     proc cbrt(a) where isDualType(a.type) {
-        var f = cbrt(prim(a)),
-            df =  1.0 / 3.0 * dual(a) / cbrt(prim(a) ** 2);
+        var f = cbrt(primalPart(a)),
+            df =  1.0 / 3.0 * dualPart(a) / cbrt(primalPart(a) ** 2);
         return todual(f, df);
     }
 }

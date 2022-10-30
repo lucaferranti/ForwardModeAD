@@ -86,6 +86,6 @@ and hence the primal part is the composition of the functions and the dual part 
 We have those shown that the algebra of dual numbers is the algebra of derivatives. Given a function :math:`f`, its derivative at :math:`a` can be extracted from the dual part of
 :math:`f(a+\epsilon)`.
 
-This can be easily implementing in a programming language via function (and operator) overloading. First, define a type ``DualNumber`` and overload arithmetic operations as described here
+This can be easily implementing in a programming language via function (and operator) overloading. First, define a type ``dual`` and overload arithmetic operations as described here
 and elementary functions using the derivation rules. If the function is written as a composition of the available overloaded elementary functions, 
 the derivative can be computed automatically using dual numbers. This is exactly what is done in ``ForwardModeAD``. 
