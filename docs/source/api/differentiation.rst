@@ -21,6 +21,7 @@ Functions for differentiation
 
    
    Evaluates the derivative of ``f`` at ``x``.
+
    :arg f: Function, note that this must be a concrete function. 
    :type f: Function
    
@@ -118,6 +119,7 @@ Functions for differentiation
 
 .. function:: proc value(x)
 
-   Extracts the value part.
-   :arg x: object containing value and derivative information.
+   Extracts the function value.
+
+   :arg x: result of computations using dual numbers.
    :type x: dual, multidual or [] multidual.

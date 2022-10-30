@@ -65,7 +65,7 @@ using values :math:`R=1~\textrm{k}\Omega` and :math:`E=5~\textrm{V}`.
 
 .. image:: circuit.png
 
-The resistor is modeled via Ohm law :math:`U_R=RI` and the diode via Schockley equation :math:`I=I_S\left(e^\frac{V_D}{V_T}-1\right)`, with :math:`I_S\approx10^{-1}` and :math:`V_T\approx25~\textrm{mV}`.
+The resistor is modeled via Ohm law :math:`U_R=RI` and the diode via Schockley equation :math:`I=I_S\left(e^\frac{V_D}{V_T}-1\right)`, with :math:`I_S\approx10^{-12}` and :math:`V_T\approx25~\textrm{mV}`.
 
 By Kirchoff voltage law we have
 
@@ -86,8 +86,9 @@ this can be now solved with our previously developed Newton method
         return 1e-9 * (exp(40 * vd) - 1) + vd - 5;
     }
     
-    var Vd = initdual(0.0),
-        Id = g(Vd);
+    var Vd = initdual(0.0), // voltage initial guess
+        Id = g(Vd), // initial current value
+        tol = 1e-6; // tolerance
 
     while abs(value(Id)) > tol {
       Vd -= value(Id) / derivative(Id);
@@ -137,6 +138,7 @@ using as initial guess :math:`X_0=[3, 3]`.
     }
 
     var cnt = 0, // to count number of iterations
+        tol = 1e-6, // tolerance
         X0 = [3.0, 3.0], // initial guess
         valjac = F(initdual(X0)), // initial function value and derivative
         res = norm(value(valjac)); // initial residue residual ||F(X_0)||

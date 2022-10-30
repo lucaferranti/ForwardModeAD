@@ -31,7 +31,7 @@ where ``prefix`` is the path where you cloned the repository.
 
 
 Derivatives in one dimension
-**************************
+****************************
 
 Suppose we have a function
 
@@ -48,7 +48,8 @@ at the resulting dual number.
 
     var valder = f(initdual(0.0));
 
-The resulting variable ``valder`` is an object of type ``dual`` and the value of the function is stored in the field ``value`` and the value of the derivative in the field ``derivative``.
+The resulting variable ``valder`` is an object of type ``dual`` and the function value and derivative can be accessed with the functions ``value``
+and ``derivative``, respectively.
 
 .. code-block:: chapel
 
@@ -60,8 +61,8 @@ The resulting variable ``valder`` is an object of type ``dual`` and the value of
     1.0
     2.0
 
-Alternatively, you can use the ``derivative`` function. This function takes as first input a function and as second input a real number. It is important to notice that the function
-passed to ``derivative`` must be a concrete function (type signature specified) that takes as input a ``dual``. If your function is generic (as in the example above), you can
+Alternatively, you can pass to ``derivative`` a function and value (the point where to evaluate the derivative) directly.
+It is important to notice that the function passed to ``derivative`` must be a concrete function (type signature specified) that takes as input a ``dual``. If your function is generic (as in the example above), you can
 achieve this passing a lambda function, as the example below demonstrates.
 
 .. code-block:: chapel
@@ -77,7 +78,7 @@ Computing the gradient
 **********************
 
 The gradient of a multivariate function :math:`f : \mathbb{R}^n \rightarrow \mathbb{R}`, can be computed the same way of the derivative using ``initdual``.
-The only difference is that the input is now initialized to an array of ``multidual``.
+The only difference is that the input is now initialized to an array of ``multidual`` and the gradient is extracted using ``gradient``.
 In the following example, we compute the gradient of :math:`h(x, y) = x^2 + 3xy+1` at the point :math:`(1, 2)`. Note in the implementation below that
 **the function should accept a single array as input**.
 
@@ -96,7 +97,8 @@ In the following example, we compute the gradient of :math:`h(x, y) = x^2 + 3xy+
     7.0
     8.0 3.0
 
-Similarly to the previous example, there is also a ``gradient`` function. In this case, you will need to first specify the domain as a type alias.
+Similarly to the previous example, ``gradient`` can also take a function as input.
+In this case, you will need to first specify the domain as a type alias.
 If your function has :math:`n` variables, then this can be achieved with the line
 
 .. code-block:: chapel
@@ -119,7 +121,8 @@ Computing the Jacobian
 
 For many-variables manyvalued functions :math:`f:\mathbb{R}^m\rightarrow\mathbb{R}^n` we can compute the Jacobian :math:`J_f`. Both methods described so far still apply.
 
-Using ``initdual`` the strategy is very similar to before, except that now the value of the function and the Jacobian should be extracted with the procedures ``prim`` and ``dual``, respectively.
+Using ``initdual`` the strategy is very similar to before, except that now the Jacobian should be extracted using the ``jacobian`` function.
+
 
 .. code-block:: chapel
 
@@ -140,7 +143,7 @@ Using ``initdual`` the strategy is very similar to before, except that now the v
 
 Note that the function should take an array an input and return an array as output.
 
-Alternatively, you can use the ``jacobian`` function, which takes as input the function and the point and returns the jacobian at that point.
+Alternatively, ``jacobian`` can take as input the function and the point and it returns the jacobian at that point.
 The same restrictions of ``gradient`` apply:
 
   - The function should be concrete with input ``[D] multidual``
