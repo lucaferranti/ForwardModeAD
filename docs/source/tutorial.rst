@@ -138,7 +138,7 @@ Next, we can compute the gradient similarly to before
 Computing the Jacobian
 **********************
 
-For many-variables manyvalued functions :math:`f:\mathbb{R}^m\rightarrow\mathbb{R}^n` we can compute the Jacobian :math:`J_f`. Both methods described so far still apply.
+For many-variables manyvalued functions :math:`F:\mathbb{R}^m\rightarrow\mathbb{R}^n` we can compute the Jacobian :math:`J_F`. Both methods described so far still apply.
 
 Using ``initdual`` the strategy is very similar to before, except that now the Jacobian should be extracted using the ``jacobian`` function.
 
@@ -181,3 +181,68 @@ Using the example function above
 
     2.0 1.0
     3.0 5.0
+
+Computing directional derivative and Jacobian-vector product
+************************************************************
+
+In some applications, instead of the gradient, one may need to compute the directional derivative, that is, the dot product :math:`\nabla f(\mathbf{x})\cdot \mathbf{v}`, where :math:`\mathbf{v}` is the direction vector.
+Instead of computing the gradient and dot product separately, one can directly compute the directional derivative by evaluating :math:`f` over the vector of dual numbers :math:`[x_1+v_1\epsilon,\ldots,x_n+v_n\epsilon]^T` and taking the dual number of the result.
+
+In practice, this is achieved by passing both the point ``x`` and the direction ``v`` to ``initdual``.
+The directional derivative can be extracted using ``directionalDerivative``.
+
+.. code-block:: chapel
+
+   proc f(x) {
+    return x[0] ** 2 + 3 * x[0] * x[1];
+   }
+
+   var dirder = f(initdual([1, 2], [0.5, 2.0]));
+
+   writeln(value(dirder));
+   writeln(directionalDerivative(dirder));
+
+.. code-block::
+
+   7.0
+   10.0
+
+Similarly, for many-valued functions, one may compute the Jacobian-vector product (VJP) :math:`J_F\mathbf{v}` directly using the same strategy. The JVP can be extracted using the ``jvp`` function.
+
+.. code-block:: chapel
+
+  proc F(x) {
+    return [x[0] ** 2 + x[1] + 1, x[0] + x[1] ** 2 + x[0] * x[1]];
+  }
+
+  var valjvp = F(initdual([1, 2], [0.5, 2.0]));
+
+  writeln(value(valjvp), "\n");
+  writeln(jvp(valjvp));
+
+.. code-block::
+
+   4.0 7.0
+
+   3.0 11.5
+
+As for the previous cases, ``directionalDerivative`` and ``jvp`` can also take a function as input.
+Similarly to ``gradient`` and ``jacobian``, the function passed cannot be generic and the domain must be written down as a type variable.
+
+.. code-block:: chapel
+
+   type D = [0..#2] dual;
+
+   var dirder = directionalDerivative(lambda(x: D) {return f(x);}, [1, 2], [0.5, 2.0]);
+       Jv     = jvp(lambda(x: D) {return F(x);}, [1, 2], [0.5, 2.0]);
+
+   writeln(dirder, "\n");
+   writeln(Jv);
+
+.. code-block::
+
+   10.0
+
+   3.0 11.5
+
+

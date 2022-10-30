@@ -2,6 +2,7 @@ use UnitTest;
 use ForwardModeAD;
 
 type D = [0..#2] multidual;
+type D2 = [0..#2] dual;
 
 proc testUnivariateFunctions(test: borrowed Test) throws {
   proc f(x) {
@@ -28,8 +29,7 @@ proc testGradient(test: borrowed Test) throws {
     return x[0] ** 2 + 3 * x[0] * x[1];
   }
 
-  // TODO: debug why doesn't work with integer input
-  var valgradh = h(initdual([1.0, 2.0]));
+  var valgradh = h(initdual([1, 2]));
   test.assertEqual(value(valgradh), 7);
   test.assertEqual(gradient(valgradh), [8.0, 3.0]);
 }
@@ -51,6 +51,31 @@ proc testJacobian(test: borrowed Test) throws {
       _Jg: [0..2, 0..1] real;
 
   test.assertEqual(Jg, _Jg);
+}
+
+proc testDirectionalAndJvp(test: borrowed Test) throws {
+  proc f(x) {
+    return x[0] ** 2 + 3 * x[0] * x[1];
+  }
+
+  var valdirder = f(initdual([1, 2], [0.5, 2.0]));
+
+  test.assertEqual(value(valdirder), 7);
+  test.assertEqual(directionalDerivative(valdirder), 10);
+
+  var dirder = directionalDerivative(lambda(x: D2) {return f(x);}, [1, 2], [0.5, 2.0]);
+  test.assertEqual(dirder, 10);
+
+  proc F(x) {
+    return [x[0] ** 2 + x[1] + 1, x[0] + x[1] ** 2 + x[0] * x[1]];
+  }
+
+  var valjvp = F(initdual([1, 2], [0.5, 2.0]));
+  test.assertEqual(value(valjvp), [4.0, 7.0]);
+  test.assertEqual(jvp(valjvp), [3.0, 11.5]);
+
+  var Jv = jvp(lambda(x: D2) {return F(x);}, [1, 2], [0.5, 2.0]);
+  test.assertEqual(Jv, [3.0, 11.5]);
 }
 
 UnitTest.main();

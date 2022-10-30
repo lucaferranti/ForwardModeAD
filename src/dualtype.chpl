@@ -57,12 +57,16 @@ module dualtype {
   */
   proc dualPart(a) where isDualType(a.type) {return a.dualPart;}
   
-  proc primalPart(a : [] multidual) {return [i in a] primalPart(i);}
+  proc primalPart(a : [] ?t) where isDualType(t) {return [i in a] primalPart(i);}
   
   proc dualPart(a : [?Dout] multidual, Din : domain(1) = a(0).dom) {
     var res : [Dout.dim(0), Din.dim(0)] real;
     [i in Dout] res(i, Din) = dualPart(a(i));
     return res;
+  }
+
+  proc dualPart(a: [] dual) {
+    return [ai in a] dualPart(ai);
   }
 
   pragma "no doc"
