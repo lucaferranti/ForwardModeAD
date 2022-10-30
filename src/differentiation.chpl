@@ -16,7 +16,7 @@ module differentiation {
   }
 
   pragma "no doc"
-  proc initdual(x : [?D] real) {
+  proc initdual(x : [?D] ?t) {
     var x0 : [D] multidual;
     forall i in D {
       var eps : [D] real = 0.0;
@@ -26,6 +26,22 @@ module differentiation {
     return x0;
   }
 
+  /*
+  Given a vector ``x`` and a vector ``v``, creates a vector of duals ``[x_i + \epsilon v_i]``.
+  Used to compute directional derivative and Jacobian-vector product (JVP).
+
+  :arg x: point where to evaluate the directional derivative / JVP
+  :type x: [D] real
+
+  :arg v: direction
+  :type v: [D] real
+
+  :returns: Vector of dual numbers
+  :rtype: [D] dual
+  */
+  proc initdual(x: [?D] ?t, v: [D] ?s) {
+    return [(xi, vi) in zip(x, v)] todual(xi, vi);
+  }
 
   /*
   Evaluates the derivative of ``f`` at ``x``.
@@ -82,7 +98,6 @@ module differentiation {
     }
 
     type D = [0..#2] multidual; // domain for the lambda function
-
     var dh = gradient(lambda(x : D){return h(x);}, [1.0, 2.0]);
     //outputs
     //8.0 3.0
@@ -141,4 +156,12 @@ module differentiation {
   :type x: dual, multidual or [] multidual.
   */
   proc value(x) {return primalPart(x);}
+
+  proc directionalDerivative(x: dual) {
+    return dualPart(x);
+  }
+
+  proc jvp(x: [] dual) {
+    return [xi in x] dualPart(xi);
+  }
 }
