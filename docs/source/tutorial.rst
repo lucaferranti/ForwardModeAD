@@ -185,7 +185,8 @@ Using the example function above
 Computing directional derivative and Jacobian-vector product
 ************************************************************
 
-In some applications, instead of the gradient, one may need to compute the directional derivative, which can be computed as the dot product :math:`\nabla f(\mathbf{x})\cdot \mathbf{v}`, where :math:`\mathbf{v}` is the direction vector. Instead of computing the gradient and dot product separately, one directly compute the directional derivative by evaluating :math:`f` over the vector of dual numbers :math:`[x_1+v_1\epsilon,\ldots,x_n+v_n\epsilon]^T` and taking the dual number of the result.
+In some applications, instead of the gradient, one may need to compute the directional derivative, that is, the dot product :math:`\nabla f(\mathbf{x})\cdot \mathbf{v}`, where :math:`\mathbf{v}` is the direction vector.
+Instead of computing the gradient and dot product separately, one can directly compute the directional derivative by evaluating :math:`f` over the vector of dual numbers :math:`[x_1+v_1\epsilon,\ldots,x_n+v_n\epsilon]^T` and taking the dual number of the result.
 
 In practice, this is achieved by passing both the point ``x`` and the direction ``v`` to ``initdual``.
 The directional derivative can be extracted using ``directionalDerivative``.
@@ -226,7 +227,7 @@ Similarly, for many-valued functions, one may compute the Jacobian-vector produc
    3.0 11.5
 
 As for the previous cases, ``directionalDerivative`` and ``jvp`` can also take a function as input.
-Similarly to ``gradient`` and ``jacobian``, the function passed cannot be generic and the domain must be written down as a type variable
+Similarly to ``gradient`` and ``jacobian``, the function passed cannot be generic and the domain must be written down as a type variable.
 
 .. code-block:: chapel
 
