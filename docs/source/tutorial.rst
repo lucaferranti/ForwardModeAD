@@ -10,8 +10,27 @@ Particularly, it achieves this by implementing `dual numbers <https://en.wikiped
 Setup
 *****
 
-.. note::
-    This is temporary. The setup will become much easier once the library is registered to mason
+Using Mason
+~~~~~~~~~~~
+
+If you are writing you application with Mason, all you have to do is run
+
+.. code-block::
+
+    mason add ForwardModeAD
+
+to add the library as dependency.
+
+To use the library you will need to import it with
+
+.. code-block:: chapel
+
+    use ForwardModeAD;
+
+and you are ready to go.
+
+Installing manually
+~~~~~~~~~~~~~~~~~~~
 
 First, `clone the repository <https://github.com/lucaferranti/ForwardModeAD>`_.
 
@@ -27,7 +46,7 @@ Finally, compile your code as
 
     chpl mycode.chpl -M $prefix/ForwardModeAD/src/
 
-where ``prefix`` is the path where you cloned the repository.
+where ``prefix`` is the path where you cloned the repository in.
 
 
 Derivatives in one dimension

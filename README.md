@@ -1,8 +1,6 @@
 # ForwardModeAD
 [![license: MIT][mit-img]](LICENSE)[![docs-dev][dev-img]][dev-url]![lifecycle](https://img.shields.io/badge/lifecycle-maturing-orange)
 
-**NOTE**: project at early stages, everything can change overnight!
-
 Lightweight library for forward-mode automatic differentiation using dual numbers and functions overloading.
 It can compute the derivative, gradient and jacobian of any function, as long as it is written as a combination of [overloaded functions](https://forwardmodead.readthedocs.io/en/latest/api/overloaded.html).
 
@@ -27,6 +25,24 @@ while abs(value(valder)) > tol {
     writeln("Iteration ", cnt, " x = ", value(x0), " residual = ", value(valder));
 }
 ```
+
+### Installation
+
+If you are writing you application with Mason, all you have to do is run
+
+```
+mason add ForwardModeAD
+```
+
+to add the library as dependency.
+
+To use the library you will need to import it with
+
+```chapel
+use ForwardModeAD;
+```
+
+and you are ready to go.
 
 ### Documentation
 
