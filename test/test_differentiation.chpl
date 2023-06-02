@@ -2,14 +2,14 @@ use UnitTest;
 use ForwardModeAD;
 
 type D = [0..#2] multidual;
-type D2 = [0..#2] dual;
+type D2 = [0..#2] dual(real);
 
 proc testUnivariateFunctions(test: borrowed Test) throws {
   proc f(x) {
     return x ** 2 + 2 * x + 1;
   }
 
-  var df = derivative(lambda(x : dual) {return f(x);}, 1);
+  var df = derivative(lambda(x : dual(real)) {return f(x);}, 1);
   test.assertEqual(df, 4.0);
 
   var valder = f(initdual(1));

@@ -6,12 +6,40 @@ module dualtype {
   and hence dual numbers can be used for forward mode automatic differentiation by operators overloading.
   */
   record dual {
+    type T;
 
     /* primal part of the dual number */
-    var primalPart : real;
+    var primalPart : T;
     
     /* dual part of the dual number */
-    var dualPart : real;
+    var dualPart : T;
+
+    proc init(type T, p: T, d: T) where isgoodtype(T) {
+      this.T = normalizeType(T);
+      this.primalPart = p;
+      this.dualPart = d;
+    }
+
+    proc init(p: ?T, d: T) where isgoodtype(T) {
+      this.T = normalizeType(T);
+      this.primalPart = p;
+      this.dualPart = d;
+    }
+
+    proc init(type T) where isgoodtype(T) {
+      this.T = normalizeType(T);
+    }
+  }
+  proc isgoodtype(type T) param {return isNumericType(T) || T == dual;}
+
+  proc normalizeType(type T) type {
+  if isIntegralType(T) {
+    if numBits(T) <= 32 then return real(32);
+    else return real(64);
+  }
+  else {
+    return T;
+  }
   }
 
   /* A multidual number is a number if the form :math:`a + \sum_{i=1}^nb_i\epsilon_i`,
@@ -65,7 +93,7 @@ module dualtype {
     return res;
   }
 
-  proc dualPart(a: [] dual) {
+  proc dualPart(a: [] ?T) where isSubtype(T, dual) {
     return [ai in a] dualPart(ai);
   }
 

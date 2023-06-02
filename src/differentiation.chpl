@@ -168,7 +168,7 @@ module differentiation {
   }
 
   /* Extracts the Jacobian-vector product from a vector of dual numbers. */
-  proc jvp(x: [] dual) {
+  inline proc jvp(x: [] ?T) where isSubtype(T, dual) {
     return dualPart(x);
   }
 

@@ -6,6 +6,8 @@ proc test_arithmetic_operations(test : borrowed Test) throws {
         y = new dual(3, 4),
         c = 2;
 
+    var z = new dual(1: int(32), 2: int(32));
+    test.assertTrue(z.T == real(32));
     test.assertEqual(primalPart(c), 2.0);
     test.assertEqual(dualPart(c), 0.0);
     test.assertEqual(primalPart(x), 1.0);
@@ -43,7 +45,7 @@ proc test_trigonometric_operations(test : borrowed Test) throws {
 
     // TODO: use isclose with e.g. atol=1e-10 and rtol=1e-5
     test.assertEqual(sin(x), new dual(1.2246467991473532e-16, -1));
-    test.assertEqual(cos(x), new dual(-1, -1.2246467991473532e-16));
+    test.assertEqual(cos(x), new dual(-1.0, -1.2246467991473532e-16));
     test.assertEqual(tan(x), new dual(-1.2246467991473532e-16, 1));
     //test.assertEqual(tan(y), new dual(1.633123935319537e16, 2.6670937881135714e32));
 
@@ -55,21 +57,21 @@ proc test_trigonometric_operations(test : borrowed Test) throws {
 proc test_transcendental_functions(test : borrowed Test) throws {
     var x = new dual(2, 3);
 
-    test.assertEqual(2 ** x, new dual(4, 12 * ln_2));
+    test.assertEqual(2 ** x, new dual(4.0, 12 * ln_2));
 
-    test.assertEqual(x ** x, new dual(4, 12 * (ln_2 + 1)));
+    test.assertEqual(x ** x, new dual(4.0, 12 * (ln_2 + 1)));
 
     test.assertEqual(exp(x), new dual(exp(2), 3 * exp(2)));
 
-    test.assertEqual(exp2(x), new dual(4, 12 * ln_2));
+    test.assertEqual(exp2(x), new dual(4.0, 12 * ln_2));
 
     test.assertEqual(expm1(x), new dual(expm1(2), 3 * exp(2)));
 
     test.assertEqual(log(x), new dual(ln_2, 1.5));
 
-    test.assertEqual(log2(x), new dual(1, 1.5 / ln_2));
+    test.assertEqual(log2(x), new dual(1.0, 1.5 / ln_2));
 
-    test.assertEqual(log1p(x), new dual(log1p(2), 1));
+    test.assertEqual(log1p(x), new dual(log1p(2), 1.0));
 }
 
 proc test_hyperbolic_functions(test : borrowed Test) throws {
