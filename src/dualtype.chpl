@@ -35,10 +35,10 @@ module dualtype {
   /* Converts a real number and array of reals to a multidual number. */
   proc todual(val : real, grad : [?D]) {return new multidual(D, val, [g in grad] g : real);}
 
-  pragma "no doc"
+  @chpldoc.nodoc
   proc isDualType(type t : dual) param {return true;}
 
-  pragma "no doc"
+  @chpldoc.nodoc
   proc isDualType(type t : multidual) param {return true;}
   
   /* Returns ``true`` if ``t`` is ``dual`` or ``multidual``. */
@@ -69,10 +69,10 @@ module dualtype {
     return [ai in a] dualPart(ai);
   }
 
-  pragma "no doc"
+  @chpldoc.nodoc
   proc primalPart(a) {return a;}
   
-  pragma "no doc"
+  @chpldoc.nodoc
   proc dualPart(a) {return 0.0;}
 
   proc isclose(a, b, rtol=1e-5, atol=0.0) where isEitherDualType(a.type, b.type) {

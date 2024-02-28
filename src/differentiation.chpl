@@ -15,7 +15,7 @@ module differentiation {
     return new dual(x, 1.0);
   }
 
-  pragma "no doc"
+  @chpldoc.nodoc
   proc initdual(x : [?D] ?t) {
     var x0 : [D] multidual;
     forall i in D {
@@ -74,7 +74,7 @@ module differentiation {
   /* Extracts the derivative from a dual number. */
   proc derivative(x: dual) {return dualPart(x);}
 
-  pragma "no doc"
+  @chpldoc.nodoc
   proc derivative(x: real) {return 0.0;}
 
   /*
