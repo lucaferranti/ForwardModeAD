@@ -9,7 +9,7 @@ proc testUnivariateFunctions(test: borrowed Test) throws {
     return x ** 2 + 2 * x + 1;
   }
 
-  var df = derivative(lambda(x : dual) {return f(x);}, 1);
+  var df = derivative(proc(x : dual) {return f(x);}, 1);
   test.assertEqual(df, 4.0);
 
   var valder = f(initdual(1));
@@ -22,7 +22,7 @@ proc testGradient(test: borrowed Test) throws {
       return 2.0;
   }
 
-  var dg = gradient(lambda(x : D) {return g(x);}, [1.0, 2.0]);
+  var dg = gradient(proc(x : D) {return g(x);}, [1.0, 2.0]);
   test.assertEqual(dg, [0.0, 0.0]);
 
   proc h(x) {
@@ -47,7 +47,7 @@ proc testJacobian(test: borrowed Test) throws {
 
   proc G(x) {return [1, 2, 3];}
 
-  var Jg = jacobian(lambda(x : D) {return G(x);}, [1.0, 2.0]),
+  var Jg = jacobian(proc(x : D) {return G(x);}, [1.0, 2.0]),
       _Jg: [0..2, 0..1] real;
 
   test.assertEqual(Jg, _Jg);
@@ -63,7 +63,7 @@ proc testDirectionalAndJvp(test: borrowed Test) throws {
   test.assertEqual(value(valdirder), 7);
   test.assertEqual(directionalDerivative(valdirder), 10);
 
-  var dirder = directionalDerivative(lambda(x: D2) {return f(x);}, [1, 2], [0.5, 2.0]);
+  var dirder = directionalDerivative(proc(x: D2) {return f(x);}, [1, 2], [0.5, 2.0]);
   test.assertEqual(dirder, 10);
 
   proc F(x) {
@@ -74,7 +74,7 @@ proc testDirectionalAndJvp(test: borrowed Test) throws {
   test.assertEqual(value(valjvp), [4.0, 7.0]);
   test.assertEqual(jvp(valjvp), [3.0, 11.5]);
 
-  var Jv = jvp(lambda(x: D2) {return F(x);}, [1, 2], [0.5, 2.0]);
+  var Jv = jvp(proc(x: D2) {return F(x);}, [1, 2], [0.5, 2.0]);
   test.assertEqual(Jv, [3.0, 11.5]);
 }
 
