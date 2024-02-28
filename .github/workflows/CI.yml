@@ -28,7 +28,7 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run tests
         run: |
-          mason test
+          mason test --show
   mac-test:
     runs-on: macos-latest
     steps:
@@ -38,4 +38,4 @@ jobs:
           brew install chapel
       - name: Run test
         run: |
-          mason test
+          mason test --show
