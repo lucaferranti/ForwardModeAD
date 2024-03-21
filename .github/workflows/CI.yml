@@ -15,15 +15,9 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  test:
-    name: Test on $${{ matrix.os }}
+  linux-test:
     # The type of runner that the job will run on
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
+    runs-on: ubuntu-latest
     container:
       image: chapel/chapel
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -33,5 +27,15 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run tests
+        run: |
+          mason test --show
+  mac-test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          brew install chapel
+      - name: Run test
         run: |
           mason test --show
