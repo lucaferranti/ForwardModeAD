@@ -36,7 +36,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd $(brew --repository homebrew/core) && git remote -v && cd -
-          brew install chapel@2
+          brew install chapel
       - name: Run test
         run: |
           mason test --show
