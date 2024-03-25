@@ -22,7 +22,7 @@ module transcendental {
 
     proc exp2(a) where isDualType(a.type) {
         var f = exp2(primalPart(a)), 
-            df = ln_2 * exp2(primalPart(a)) * dualPart(a);
+            df = ln2 * exp2(primalPart(a)) * dualPart(a);
         return todual(f, df);
     }
 
@@ -40,13 +40,13 @@ module transcendental {
     
     proc log2(a) where isDualType(a.type) {
         var f = log2(primalPart(a)), 
-            df = dualPart(a)/(primalPart(a) * ln_2);
+            df = dualPart(a)/(primalPart(a) * ln2);
         return todual(f, df);
     }
 
     proc log10(a) where isDualType(a.type) {
         var f = log10(primalPart(a)), 
-            df = dualPart(a) / (primalPart(a) * ln_10);
+            df = dualPart(a) / (primalPart(a) * ln10);
         return todual(f, df);
     }
 

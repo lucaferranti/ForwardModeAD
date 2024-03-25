@@ -38,7 +38,7 @@ proc test_arithmetic_operations(test : borrowed Test) throws {
 
 proc test_trigonometric_operations(test : borrowed Test) throws {
     var x = new dual(pi, 1);
-    var y = new dual(half_pi, 1);
+    var y = new dual(halfPi, 1);
     var z = new dual(sqrt(2) / 2.0, 2);
 
     // TODO: use isclose with e.g. atol=1e-10 and rtol=1e-5
@@ -55,19 +55,19 @@ proc test_trigonometric_operations(test : borrowed Test) throws {
 proc test_transcendental_functions(test : borrowed Test) throws {
     var x = new dual(2, 3);
 
-    test.assertEqual(2 ** x, new dual(4, 12 * ln_2));
+    test.assertEqual(2 ** x, new dual(4, 12 * ln2));
 
-    test.assertEqual(x ** x, new dual(4, 12 * (ln_2 + 1)));
+    test.assertEqual(x ** x, new dual(4, 12 * (ln2 + 1)));
 
     test.assertEqual(exp(x), new dual(exp(2), 3 * exp(2)));
 
-    test.assertEqual(exp2(x), new dual(4, 12 * ln_2));
+    test.assertEqual(exp2(x), new dual(4, 12 * ln2));
 
     test.assertEqual(expm1(x), new dual(expm1(2), 3 * exp(2)));
 
-    test.assertEqual(log(x), new dual(ln_2, 1.5));
+    test.assertEqual(log(x), new dual(ln2, 1.5));
 
-    test.assertEqual(log2(x), new dual(1, 1.5 / ln_2));
+    test.assertEqual(log2(x), new dual(1, 1.5 / ln2));
 
     test.assertEqual(log1p(x), new dual(log1p(2), 1));
 }

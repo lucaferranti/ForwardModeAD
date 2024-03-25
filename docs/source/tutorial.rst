@@ -86,7 +86,7 @@ achieve this passing a lambda function, as the example below demonstrates.
 
 .. code-block:: chapel
 
-    var dfx0 = derivative(lambda(x : dual) {return f(x);}, 0.0);
+    var dfx0 = derivative(proc(x : dual) {return f(x);}, 0.0);
     writeln(dfx0);
 
 .. code-block::
@@ -128,7 +128,7 @@ Next, we can compute the gradient similarly to before
 
 .. code-block:: chapel
 
-    var dh = gradient(lambda(x : D){return h(x);}, [1.0, 2.0]);
+    var dh = gradient(proc(x : D){return h(x);}, [1.0, 2.0]);
     writeln(dh);
 
 .. code-block::
@@ -174,7 +174,7 @@ Using the example function above
 
     type D = [0..#2] multidual
 
-    var J = jacobian(lambda(x : D){return F(x);}, [1.0, 2.0]);
+    var J = jacobian(proc(x : D){return F(x);}, [1.0, 2.0]);
     writeln(J);
 
 .. code-block::
@@ -233,8 +233,8 @@ Similarly to ``gradient`` and ``jacobian``, the function passed cannot be generi
 
    type D = [0..#2] dual;
 
-   var dirder = directionalDerivative(lambda(x: D) {return f(x);}, [1, 2], [0.5, 2.0]);
-       Jv     = jvp(lambda(x: D) {return F(x);}, [1, 2], [0.5, 2.0]);
+   var dirder = directionalDerivative(proc(x: D) {return f(x);}, [1, 2], [0.5, 2.0]);
+       Jv     = jvp(proc(x: D) {return F(x);}, [1, 2], [0.5, 2.0]);
 
    writeln(dirder, "\n");
    writeln(Jv);

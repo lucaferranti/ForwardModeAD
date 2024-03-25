@@ -51,19 +51,19 @@ proc test_trigonometric_operations(test : borrowed Test) throws {
 proc test_transcendental_functions(test : borrowed Test) throws {
     var x = todual(2, [2, 3]);
 
-    test.assertEqual(2 ** x, todual(4, [8 * ln_2, 12 * ln_2]));
+    test.assertEqual(2 ** x, todual(4, [8 * ln2, 12 * ln2]));
 
-    test.assertEqual(x ** x, todual(4, [8 * (ln_2 + 1), 12 * (ln_2 + 1)]));
+    test.assertEqual(x ** x, todual(4, [8 * (ln2 + 1), 12 * (ln2 + 1)]));
 
     test.assertEqual(exp(x), todual(exp(2), [2 * exp(2), 3 * exp(2)]));
 
-    test.assertEqual(exp2(x), todual(4, [8 * ln_2, 12 * ln_2]));
+    test.assertEqual(exp2(x), todual(4, [8 * ln2, 12 * ln2]));
 
     test.assertEqual(expm1(x), todual(expm1(2), [2 * exp(2), 3 * exp(2)]));
 
-    test.assertEqual(log(x), todual(ln_2, [1.0, 1.5]));
+    test.assertEqual(log(x), todual(ln2, [1.0, 1.5]));
 
-    test.assertEqual(log2(x), todual(1, [1.0 / ln_2, 1.5 / ln_2]));
+    test.assertEqual(log2(x), todual(1, [1.0 / ln2, 1.5 / ln2]));
 
     test.assertEqual(log1p(x), todual(log1p(2), [2.0 / 3.0, 1.0]));
 }
