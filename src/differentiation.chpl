@@ -63,7 +63,7 @@ module differentiation {
         return x**2 + 2*x + 1;
     }
      
-    var dfx = derivative(lambda(x : dual){return f(x);}, 1.0);
+    var dfx = derivative(proc(x : dual){return f(x);}, 1.0);
     //outputs
     //4.0
   */
@@ -98,7 +98,7 @@ module differentiation {
     }
 
     type D = [0..#2] multidual; // domain for the lambda function
-    var dh = gradient(lambda(x : D){return h(x);}, [1.0, 2.0]);
+    var dh = gradient(proc(x : D){return h(x);}, [1.0, 2.0]);
     //outputs
     //8.0 3.0
   */
@@ -133,7 +133,7 @@ module differentiation {
 
     type D = [0..#2] multidual; // domain for the lambda function
 
-    var Jf = jacobian(lambda(x : D){return F(x);}, [1.0, 2.0]);
+    var Jf = jacobian(proc(x : D){return F(x);}, [1.0, 2.0]);
 
     writeln(Jf, "\n");
     //outputs
