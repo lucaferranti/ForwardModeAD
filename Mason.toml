@@ -4,8 +4,9 @@ authors = "Luca Ferranti"
 chplVersion = "2.0.0"
 license = "MIT"
 name = "ForwardModeAD"
+source = "git@github.com:lucaferranti/ForwardModeAD.git"
 version = "0.2.0"
-type="library"
+type = "library"
 
 [dependencies]
 
