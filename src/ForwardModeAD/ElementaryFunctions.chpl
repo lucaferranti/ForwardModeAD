@@ -1,5 +1,6 @@
 module ElementaryFunctions {
-    use ForwardModeAD;
+    require "src/ForwardModeAD/DualType.chpl";
+    use DualType;
     use Math;
 
     // Arithmetic operations
