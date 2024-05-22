@@ -1,6 +1,5 @@
 module Differentiation {
-  require "src/ForwardModeAD/DualType.chpl";
-  use DualType;
+  use ForwardModeAD.DualType;
 
   /*
   Initializes the input to the appropriate dual number to evalute the derivative.
