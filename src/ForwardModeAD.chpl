@@ -1,16 +1,9 @@
 module ForwardModeAD {
+  include module DualType;
+  include module ElementaryFunctions;
+  include module Differentiation;
 
-  public use Math;
-
-  public use dualtype;
-  
-  public use arithmetic;
-
-  public use trigonometric;
-
-  public use transcendental;
-
-  public use hyperbolic;
-
-  public use differentiation;
+  public use DualType;
+  public use ElementaryFunctions;
+  public use Differentiation;
 }

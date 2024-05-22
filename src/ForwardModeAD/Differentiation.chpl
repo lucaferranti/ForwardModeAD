@@ -1,5 +1,4 @@
-module differentiation {
-  
+module Differentiation {
   use ForwardModeAD;
 
   /*

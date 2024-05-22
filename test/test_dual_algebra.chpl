@@ -1,5 +1,6 @@
 use UnitTest;
 use ForwardModeAD;
+use Math;
 
 proc test_arithmetic_operations(test : borrowed Test) throws {
     var x = new dual(1, 2),
