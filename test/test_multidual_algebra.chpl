@@ -1,6 +1,6 @@
 use UnitTest;
 use ForwardModeAD;
-
+use Math;
 
 proc test_arithmetic_operations(test : borrowed Test) throws {
     var x = todual(1, [2, 3]),

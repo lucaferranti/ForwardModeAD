@@ -1,6 +1,5 @@
-module differentiation {
-  
-  use ForwardModeAD;
+module Differentiation {
+  use ForwardModeAD.DualType;
 
   /*
   Initializes the input to the appropriate dual number to evalute the derivative.

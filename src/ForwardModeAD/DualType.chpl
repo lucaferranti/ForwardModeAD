@@ -1,4 +1,4 @@
-module dualtype {  
+module DualType {  
 
   /*
   A dual number is a number in the form :math:`a + b\epsilon`, for which :math:`\epsilon^2 = 0`.
